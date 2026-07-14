@@ -6,6 +6,9 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 
+import Reports from "./pages/Reports";
+import Analytics from "./pages/Analytics";
+
 // Expense Management Pages
 import ExpenseList from "./pages/ExpenseList";
 import AddExpense from "./pages/AddExpense";
@@ -29,8 +32,11 @@ function AppRoutes() {
       <Route path="/add-expense" element={<AddExpense />} />
       <Route path="/edit-expense/:id" element={<EditExpense />} />
 
-      {/* Profile */}
-      <Route path="/profile" element={<Profile />} />
+      {/* Analytics */}
+<Route path="/analytics" element={<Analytics />} />
+
+{/* Profile */}
+<Route path="/profile" element={<Profile />} />
 
       {/* Redirect Unknown Routes */}
       <Route path="*" element={<Navigate to="/" replace />} />

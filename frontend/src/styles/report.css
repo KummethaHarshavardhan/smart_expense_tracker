@@ -1,0 +1,80 @@
+/* Styles for reports and charts */
+.chart-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  margin-bottom: 16px;
+}
+
+.pie-card .pie-chart-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.pie-chart {
+  flex: 0 0 200px;
+}
+
+.legend {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.legend-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.legend-label {
+  min-width: 80px;
+}
+
+.legend-value {
+  margin-left: auto;
+  font-weight: 600;
+}
+
+.reports-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.reports-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.reports-table th,
+.reports-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 800px) {
+  .reports-grid,
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+}
