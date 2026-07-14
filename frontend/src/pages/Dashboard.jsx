@@ -2,7 +2,7 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import SummaryCard from "../components/SummaryCard";
-import "./../styles/dashboard.css";
+import "../styles/dashboard.css";
 
 function Dashboard() {
   return (

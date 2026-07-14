@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./../styles/login.css";
+import "../styles/login.css";
 
 function Register() {
   const navigate = useNavigate();
@@ -74,7 +74,7 @@ function Register() {
             <input
               type={showPassword ? "text" : "password"}
               name="password"
-              placeholder="Create password"
+              placeholder="Create password(min 6 characters)"
               value={formData.password}
               onChange={handleChange}
               required
