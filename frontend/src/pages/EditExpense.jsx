@@ -24,13 +24,17 @@ function EditExpense() {
         if (mounted) setExistingExpense(data);
       })
       .catch((err) => {
-        if (mounted) setError(err?.message || "Could not load this expense");
+        if (mounted) {
+          setError(err?.message || "Could not load this expense");
+        }
       })
       .finally(() => {
         if (mounted) setLoading(false);
       });
 
-    return () => (mounted = false);
+    return () => {
+      mounted = false;
+    };
   }, [id]);
 
   const handleUpdateExpense = async (updatedExpense) => {
@@ -51,7 +55,19 @@ function EditExpense() {
         <Sidebar />
 
         <main className="dashboard-main">
-          {error && <p className="error-text">{error}</p>}
+
+          <div className="page-header">
+            <h2>Edit Expense</h2>
+            <p>
+              Update your expense information and keep your records accurate.
+            </p>
+          </div>
+
+          {error && (
+            <div className="error-box">
+              {error}
+            </div>
+          )}
 
           {loading ? (
             <Loader />
@@ -64,6 +80,7 @@ function EditExpense() {
               />
             )
           )}
+
         </main>
       </div>
 

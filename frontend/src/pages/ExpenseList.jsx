@@ -17,17 +17,19 @@ function ExpenseList() {
 
   const loadExpenses = () => {
     setLoading(true);
-    getExpenses({ search: search || undefined, category: category || undefined })
+
+    getExpenses({
+      search: search || undefined,
+      category: category || undefined,
+    })
       .then((data) => setExpenses(data))
       .catch((err) => console.error("Failed to load expenses:", err))
       .finally(() => setLoading(false));
   };
 
-  // Reload whenever search or category filter changes
   useEffect(() => {
-    const timeout = setTimeout(loadExpenses, 300); // small debounce for the search box
+    const timeout = setTimeout(loadExpenses, 300);
     return () => clearTimeout(timeout);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, category]);
 
   const handleDelete = async (id) => {
@@ -50,21 +52,29 @@ function ExpenseList() {
       <Navbar />
 
       <div className="dashboard-content">
+
         <Sidebar />
 
         <main className="dashboard-main">
-          <div className="expense-header">
-            <h2>Expense Management</h2>
+
+          <div className="expense-page-header">
+
+            <div>
+              <h2>Expense Management</h2>
+              <p>Manage, search and organize your daily expenses.</p>
+            </div>
 
             <Link to="/add-expense">
               <button>Add Expense</button>
             </Link>
+
           </div>
 
           <div className="expense-filters">
+
             <input
               type="text"
-              placeholder="Search expense..."
+              placeholder="🔍 Search expenses..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -82,6 +92,7 @@ function ExpenseList() {
               <option value="Healthcare">Healthcare</option>
               <option value="Others">Others</option>
             </select>
+
           </div>
 
           {loading ? (
@@ -94,17 +105,26 @@ function ExpenseList() {
               />
 
               <div className="expense-card-grid">
-                {expenses.map((expense) => (
-                  <ExpenseCard
-                    key={expense.id}
-                    expense={expense}
-                    onDelete={handleDelete}
-                  />
-                ))}
+                {expenses.length === 0 ? (
+                  <div className="empty-expense">
+                    <h3>No expenses found</h3>
+                    <p>Try changing your search or add a new expense.</p>
+                  </div>
+                ) : (
+                  expenses.map((expense) => (
+                    <ExpenseCard
+                      key={expense.id}
+                      expense={expense}
+                      onDelete={handleDelete}
+                    />
+                  ))
+                )}
               </div>
             </>
           )}
+
         </main>
+
       </div>
 
       <Footer />

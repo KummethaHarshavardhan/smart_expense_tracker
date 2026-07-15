@@ -29,12 +29,26 @@ function AddExpense() {
         <Sidebar />
 
         <main className="dashboard-main">
-          {error && <p className="error-text">{error}</p>}
+
+          <div className="page-header">
+            <h2>Add New Expense</h2>
+            <p>
+              Record your daily expenses to keep track of your spending and
+              manage your budget effectively.
+            </p>
+          </div>
+
+          {error && (
+            <div className="error-box">
+              {error}
+            </div>
+          )}
 
           <ExpenseForm
             buttonText="Add Expense"
             onSubmit={handleAddExpense}
           />
+
         </main>
       </div>
 

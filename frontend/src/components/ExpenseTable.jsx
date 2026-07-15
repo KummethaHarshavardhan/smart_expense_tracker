@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 function ExpenseTable({ expenses = [], onDelete }) {
   return (
     <div className="expense-table-container">
+
       <table className="expense-table">
+
         <thead>
           <tr>
             <th>Title</th>
@@ -16,6 +18,7 @@ function ExpenseTable({ expenses = [], onDelete }) {
         </thead>
 
         <tbody>
+
           {expenses.length === 0 ? (
             <tr>
               <td colSpan="6" className="no-data">
@@ -25,29 +28,56 @@ function ExpenseTable({ expenses = [], onDelete }) {
           ) : (
             expenses.map((expense) => (
               <tr key={expense.id}>
-                <td>{expense.title}</td>
-                <td>{expense.category}</td>
-                <td>₹{expense.amount}</td>
+
+                <td>
+                  <strong>{expense.title}</strong>
+                </td>
+
+                <td>
+                  <span
+                    className={`category-badge ${expense.category
+                      ?.toLowerCase()
+                      .replace(/\s/g, "-")}`}
+                  >
+                    {expense.category}
+                  </span>
+                </td>
+
+                <td className="amount">
+                  ₹{Number(expense.amount).toLocaleString("en-IN")}
+                </td>
+
                 <td>{expense.date}</td>
-                <td>{expense.description}</td>
+
+                <td className="description">
+                  {expense.description || "-"}
+                </td>
 
                 <td className="action-buttons">
+
                   <Link to={`/edit-expense/${expense.id}`}>
-                    <button className="edit-btn">Edit</button>
+                    <button className="edit-btn">
+                      ✏ Edit
+                    </button>
                   </Link>
 
                   <button
                     className="delete-btn"
                     onClick={() => onDelete(expense.id)}
                   >
-                    Delete
+                    🗑 Delete
                   </button>
+
                 </td>
+
               </tr>
             ))
           )}
+
         </tbody>
+
       </table>
+
     </div>
   );
 }
