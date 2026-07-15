@@ -1,5 +1,6 @@
 const asyncHandler = require('../utils/asyncHandler');
 const Expense = require('../models/Expense');
+const Income = require('../models/Income');
 
 // @route POST /api/expenses
 const createExpense = asyncHandler(async (req, res) => {
@@ -178,29 +179,42 @@ const getDashboardSummary = asyncHandler(async (req, res) => {
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
   const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
 
-  const [totalExpenseAgg, thisMonthAgg, recentExpenses] = await Promise.all([
-    Expense.aggregate([
-      { $match: { user: req.user._id } },
-      { $group: { _id: null, total: { $sum: '$amount' } } },
-    ]),
-    Expense.aggregate([
-      { $match: { user: req.user._id, date: { $gte: monthStart, $lte: monthEnd } } },
-      { $group: { _id: null, total: { $sum: '$amount' } } },
-    ]),
-    Expense.find({ user: req.user._id }).sort({ date: -1 }).limit(5),
-  ]);
+  const [totalExpenseAgg, thisMonthExpenseAgg, totalIncomeAgg, thisMonthIncomeAgg, recentExpenses, recentIncomes] =
+    await Promise.all([
+      Expense.aggregate([
+        { $match: { user: req.user._id } },
+        { $group: { _id: null, total: { $sum: '$amount' } } },
+      ]),
+      Expense.aggregate([
+        { $match: { user: req.user._id, date: { $gte: monthStart, $lte: monthEnd } } },
+        { $group: { _id: null, total: { $sum: '$amount' } } },
+      ]),
+      Income.aggregate([
+        { $match: { user: req.user._id } },
+        { $group: { _id: null, total: { $sum: '$amount' } } },
+      ]),
+      Income.aggregate([
+        { $match: { user: req.user._id, date: { $gte: monthStart, $lte: monthEnd } } },
+        { $group: { _id: null, total: { $sum: '$amount' } } },
+      ]),
+      Expense.find({ user: req.user._id }).sort({ date: -1 }).limit(5),
+      Income.find({ user: req.user._id }).sort({ date: -1 }).limit(5),
+    ]);
 
   const totalExpense = totalExpenseAgg[0]?.total || 0;
-  const thisMonth = thisMonthAgg[0]?.total || 0;
-  const totalIncome = req.user.monthlyIncome || 0;
+  const thisMonthExpense = thisMonthExpenseAgg[0]?.total || 0;
+  const totalIncome = totalIncomeAgg[0]?.total || 0;
+  const thisMonthIncome = thisMonthIncomeAgg[0]?.total || 0;
   const balance = totalIncome - totalExpense;
 
   res.status(200).json({
     totalIncome,
     totalExpense,
     balance,
-    thisMonth,
+    thisMonth: thisMonthExpense,
+    thisMonthIncome,
     recentExpenses,
+    recentIncomes,
   });
 });
 
