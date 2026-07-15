@@ -14,6 +14,7 @@ function Dashboard() {
     balance: 0,
     thisMonth: 0,
     recentExpenses: [],
+    recentIncomes: [],
   });
 
   useEffect(() => {
@@ -50,6 +51,14 @@ function Dashboard() {
 
               <Link to="/expenses">
                 <button>View Expenses</button>
+              </Link>
+
+              <Link to="/add-income">
+                <button>Add Income</button>
+              </Link>
+
+              <Link to="/income">
+                <button>View Income</button>
               </Link>
             </div>
           </div>
@@ -103,6 +112,42 @@ function Dashboard() {
                       <td>{expense.category}</td>
                       <td>₹{expense.amount}</td>
                       <td>{expense.date}</td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+
+            </table>
+
+          </div>
+
+          <div className="recent-expenses">
+
+            <h3>Recent Income</h3>
+
+            <table className="expense-table">
+
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Amount</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {summary.recentIncomes.length === 0 ? (
+                  <tr>
+                    <td colSpan="4">No income entries available.</td>
+                  </tr>
+                ) : (
+                  summary.recentIncomes.map((income) => (
+                    <tr key={income.id}>
+                      <td>{income.title}</td>
+                      <td>{income.category}</td>
+                      <td>₹{income.amount}</td>
+                      <td>{income.date}</td>
                     </tr>
                   ))
                 )}

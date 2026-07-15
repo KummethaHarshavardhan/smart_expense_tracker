@@ -11,6 +11,11 @@ import ExpenseList from "./pages/ExpenseList";
 import AddExpense from "./pages/AddExpense";
 import EditExpense from "./pages/EditExpense";
 
+// Income Management
+import Income from "./pages/Income";
+import IncomeList from "./pages/IncomeList";
+import EditIncome from "./pages/EditIncome";
+
 // Reports & Analytics
 import Reports from "./pages/Reports";
 import Analytics from "./pages/Analytics";
@@ -32,6 +37,11 @@ function AppRoutes() {
       <Route path="/expenses" element={<ExpenseList />} />
       <Route path="/add-expense" element={<AddExpense />} />
       <Route path="/edit-expense/:id" element={<EditExpense />} />
+
+      {/* Income Management */}
+      <Route path="/income" element={<IncomeList />} />
+      <Route path="/add-income" element={<Income />} />
+      <Route path="/edit-income/:id" element={<EditIncome />} />
 
       {/* Reports */}
       <Route path="/reports" element={<Reports />} />

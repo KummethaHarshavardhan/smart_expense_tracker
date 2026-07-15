@@ -1,62 +1,23 @@
 import api from "./api";
 
-const CATEGORY_COLORS = [
-  "#4caf50",
-  "#2196f3",
-  "#ff9800",
-  "#f44336",
-  "#9c27b0",
-  "#00bcd4",
-  "#795548",
-  "#607d8b",
-];
+const CATEGORY_COLORS = ["#4caf50", "#2196f3", "#ff9800", "#f44336", "#9c27b0", "#00bcd4", "#795548", "#607d8b"];
+const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-const MONTH_NAMES = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-
-// Category-wise Expense Summary
+// Category totals for the Reports pie chart -> GET /api/expenses/summary
 export const getCategoryBreakdown = async () => {
-  try {
-    const response = await api.get("/expenses/summary");
-
-    return response.data.byCategory.map((category, index) => ({
-      label: category._id,
-      value: category.total,
-      color: CATEGORY_COLORS[index % CATEGORY_COLORS.length],
-    }));
-  } catch (error) {
-    console.error("Failed to fetch category summary:", error);
-    return [];
-  }
+  const response = await api.get("/expenses/summary");
+  return response.data.byCategory.map((c, i) => ({
+    label: c._id,
+    value: c.total,
+    color: CATEGORY_COLORS[i % CATEGORY_COLORS.length],
+  }));
 };
 
-// Monthly Expense Report
-export const getMonthlyReport = async (
-  year = new Date().getFullYear()
-) => {
-  try {
-    const response = await api.get("/expenses/monthly-report", {
-      params: { year },
-    });
-
-    return response.data.months.map((month) => ({
-      month: MONTH_NAMES[month.month - 1],
-      amount: month.total,
-    }));
-  } catch (error) {
-    console.error("Failed to fetch monthly report:", error);
-    return [];
-  }
+// Monthly totals for the Reports/Analytics bar chart -> GET /api/expenses/monthly-report
+export const getMonthlyReport = async (year = new Date().getFullYear()) => {
+  const response = await api.get("/expenses/monthly-report", { params: { year } });
+  return response.data.months.map((m) => ({
+    month: MONTH_NAMES[m.month - 1],
+    amount: m.total,
+  }));
 };

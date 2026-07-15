@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import {
   FaTachometerAlt,
   FaPlusCircle,
+  FaMoneyBillWave,
   FaWallet,
   FaChartPie,
   FaChartLine,
@@ -37,11 +38,31 @@ function Sidebar() {
 
         <li>
           <NavLink
+            to="/add-income"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            <FaMoneyBillWave />
+            <span>Add Income</span>
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink
             to="/expenses"
             className={({ isActive }) => (isActive ? "active" : "")}
           >
             <FaWallet />
             <span>Expenses</span>
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink
+            to="/income"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            <FaMoneyBillWave />
+            <span>Income</span>
           </NavLink>
         </li>
 
