@@ -39,9 +39,9 @@ const expenseSchema = new mongoose.Schema(
   {
     timestamps: true,
     toJSON: {
-      virtuals: true, 
+      virtuals: true, // adds an `id` string field alongside `_id`, since the frontend reads `expense.id`
       transform: (doc, ret) => {
-        
+        // Send date as a plain YYYY-MM-DD string so it drops straight into <input type="date">
         if (ret.date instanceof Date) {
           ret.date = ret.date.toISOString().split('T')[0];
         }
