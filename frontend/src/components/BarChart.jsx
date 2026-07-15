@@ -1,5 +1,5 @@
-function BarChart() {
-  const expenses = [
+function BarChart({ data }) {
+  const defaultExpenses = [
     { month: "Jan", amount: 3500 },
     { month: "Feb", amount: 4200 },
     { month: "Mar", amount: 5100 },
@@ -7,7 +7,9 @@ function BarChart() {
     { month: "May", amount: 4600 },
   ];
 
-  const maxAmount = Math.max(...expenses.map((item) => item.amount));
+  const expenses = data && data.length ? data : defaultExpenses;
+
+  const maxAmount = Math.max(...expenses.map((item) => item.amount)) || 1;
 
   return (
     <div className="chart-card">

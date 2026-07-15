@@ -1,23 +1,23 @@
-// Simple report service with mock data to avoid runtime errors
-// Replace with real API calls when backend is available
+import api from "./api";
 
+const CATEGORY_COLORS = ["#4caf50", "#2196f3", "#ff9800", "#f44336", "#9c27b0", "#00bcd4", "#795548", "#607d8b"];
+const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+// Category totals for the Reports pie chart -> GET /api/expenses/summary
 export const getCategoryBreakdown = async () => {
-	// sample data
-	return Promise.resolve([
-		{ label: "Food", value: 520, color: "#4caf50" },
-		{ label: "Transport", value: 180, color: "#2196f3" },
-		{ label: "Shopping", value: 300, color: "#ff9800" },
-		{ label: "Bills", value: 250, color: "#f44336" },
-	]);
+  const response = await api.get("/expenses/summary");
+  return response.data.byCategory.map((c, i) => ({
+    label: c._id,
+    value: c.total,
+    color: CATEGORY_COLORS[i % CATEGORY_COLORS.length],
+  }));
 };
 
-export const getMonthlyReport = async () => {
-	return Promise.resolve([
-		{ month: "Jan", amount: 3500 },
-		{ month: "Feb", amount: 4200 },
-		{ month: "Mar", amount: 5100 },
-		{ month: "Apr", amount: 3800 },
-		{ month: "May", amount: 4600 },
-	]);
+// Monthly totals for the Reports/Analytics bar chart -> GET /api/expenses/monthly-report
+export const getMonthlyReport = async (year = new Date().getFullYear()) => {
+  const response = await api.get("/expenses/monthly-report", { params: { year } });
+  return response.data.months.map((m) => ({
+    month: MONTH_NAMES[m.month - 1],
+    amount: m.total,
+  }));
 };
-

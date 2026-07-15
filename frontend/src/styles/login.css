@@ -100,3 +100,12 @@
     padding: 25px;
   }
 }
+.error-text {
+  color: #d32f2f;
+  background: #fdecea;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+  text-align: center;
+}

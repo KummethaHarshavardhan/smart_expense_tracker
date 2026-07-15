@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { registerUser } from "../services/authService";
 import "../styles/login.css";
 
 function Register() {
@@ -13,6 +14,8 @@ function Register() {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setFormData({
@@ -21,20 +24,26 @@ function Register() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
+      setError("Passwords do not match!");
       return;
     }
 
-    // TODO: Connect Register API
-    console.log("Register Data:", formData);
-
-    alert("Registration Successful!");
-
-    navigate("/login");
+    try {
+      setLoading(true);
+      // confirmPassword is only used for the check above; authService
+      // strips it before sending, so it never reaches the backend.
+      await registerUser(formData);
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err?.message || "Registration failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -42,6 +51,8 @@ function Register() {
       <div className="auth-card">
 
         <h2>Create Account</h2>
+
+        {error && <p className="error-text">{error}</p>}
 
         <form onSubmit={handleSubmit}>
 
@@ -102,8 +113,8 @@ function Register() {
             <label htmlFor="showPassword">Show Password</label>
           </div>
 
-          <button type="submit" className="btn">
-            Register
+          <button type="submit" className="btn" disabled={loading}>
+            {loading ? "Creating account..." : "Register"}
           </button>
 
         </form>

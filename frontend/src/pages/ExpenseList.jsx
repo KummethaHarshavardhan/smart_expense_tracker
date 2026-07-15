@@ -1,55 +1,49 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ExpenseTable from "../components/ExpenseTable";
 import ExpenseCard from "../components/ExpenseCard";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
+import Loader from "../components/Loader";
+import { getExpenses, deleteExpense } from "../services/expenseService";
 import "../styles/expense.css";
 
 function ExpenseList() {
-  const [expenses, setExpenses] = useState([
-    {
-      id: 1,
-      title: "Lunch",
-      category: "Food",
-      amount: 250,
-      date: "2026-07-14",
-      description: "Lunch at restaurant",
-    },
-    {
-      id: 2,
-      title: "Bus Ticket",
-      category: "Travel",
-      amount: 80,
-      date: "2026-07-13",
-      description: "College to Home",
-    },
-  ]);
-
+  const [expenses, setExpenses] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
 
-  const handleDelete = (id) => {
+  const loadExpenses = () => {
+    setLoading(true);
+    getExpenses({ search: search || undefined, category: category || undefined })
+      .then((data) => setExpenses(data))
+      .catch((err) => console.error("Failed to load expenses:", err))
+      .finally(() => setLoading(false));
+  };
+
+  // Reload whenever search or category filter changes
+  useEffect(() => {
+    const timeout = setTimeout(loadExpenses, 300); // small debounce for the search box
+    return () => clearTimeout(timeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search, category]);
+
+  const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this expense?"
     );
 
     if (!confirmDelete) return;
 
-    setExpenses(expenses.filter((expense) => expense.id !== id));
+    try {
+      await deleteExpense(id);
+      setExpenses(expenses.filter((expense) => expense.id !== id));
+    } catch (err) {
+      alert(err?.message || "Failed to delete expense");
+    }
   };
-
-  const filteredExpenses = expenses.filter((expense) => {
-    const matchesSearch = expense.title
-      .toLowerCase()
-      .includes(search.toLowerCase());
-
-    const matchesCategory =
-      category === "" || expense.category === category;
-
-    return matchesSearch && matchesCategory;
-  });
 
   return (
     <>
@@ -90,20 +84,26 @@ function ExpenseList() {
             </select>
           </div>
 
-          <ExpenseTable
-            expenses={filteredExpenses}
-            onDelete={handleDelete}
-          />
-
-          <div className="expense-card-grid">
-            {filteredExpenses.map((expense) => (
-              <ExpenseCard
-                key={expense.id}
-                expense={expense}
+          {loading ? (
+            <Loader />
+          ) : (
+            <>
+              <ExpenseTable
+                expenses={expenses}
                 onDelete={handleDelete}
               />
-            ))}
-          </div>
+
+              <div className="expense-card-grid">
+                {expenses.map((expense) => (
+                  <ExpenseCard
+                    key={expense.id}
+                    expense={expense}
+                    onDelete={handleDelete}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </main>
       </div>
 

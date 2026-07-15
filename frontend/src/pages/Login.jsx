@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "../services/authService";
 import "../styles/login.css";
 
 function Login() {
@@ -11,6 +12,8 @@ function Login() {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setFormData({
@@ -19,20 +22,27 @@ function Login() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
 
-    // TODO: Connect backend API here
-    console.log("Login Data:", formData);
-
-    // Temporary navigation
-    navigate("/dashboard");
+    try {
+      setLoading(true);
+      await loginUser(formData);
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err?.message || "Invalid email or password");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="auth-container">
       <div className="auth-card">
         <h2>Login</h2>
+
+        {error && <p className="error-text">{error}</p>}
 
         <form onSubmit={handleSubmit}>
 
@@ -70,8 +80,8 @@ function Login() {
             </div>
           </div>
 
-          <button type="submit" className="btn">
-            Login
+          <button type="submit" className="btn" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
           </button>
 
         </form>

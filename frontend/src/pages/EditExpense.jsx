@@ -1,30 +1,46 @@
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ExpenseForm from "../components/ExpenseForm";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
+import Loader from "../components/Loader";
+import { getExpenseById, updateExpense } from "../services/expenseService";
 import "../styles/expense.css";
 
 function EditExpense() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // Temporary dummy data
-  // Later replace with API call using the id
-  const existingExpense = {
-    title: "Lunch",
-    amount: 250,
-    category: "Food",
-    date: "2026-07-14",
-    description: "Lunch at restaurant",
-  };
+  const [existingExpense, setExistingExpense] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const handleUpdateExpense = (updatedExpense) => {
-    console.log("Updated Expense:", updatedExpense);
+  useEffect(() => {
+    let mounted = true;
 
-    alert("Expense updated successfully!");
+    getExpenseById(id)
+      .then((data) => {
+        if (mounted) setExistingExpense(data);
+      })
+      .catch((err) => {
+        if (mounted) setError(err?.message || "Could not load this expense");
+      })
+      .finally(() => {
+        if (mounted) setLoading(false);
+      });
 
-    navigate("/expenses");
+    return () => (mounted = false);
+  }, [id]);
+
+  const handleUpdateExpense = async (updatedExpense) => {
+    try {
+      await updateExpense(id, updatedExpense);
+      alert("Expense updated successfully!");
+      navigate("/expenses");
+    } catch (err) {
+      setError(err?.message || "Failed to update expense");
+    }
   };
 
   return (
@@ -35,11 +51,19 @@ function EditExpense() {
         <Sidebar />
 
         <main className="dashboard-main">
-          <ExpenseForm
-            initialData={existingExpense}
-            buttonText="Update Expense"
-            onSubmit={handleUpdateExpense}
-          />
+          {error && <p className="error-text">{error}</p>}
+
+          {loading ? (
+            <Loader />
+          ) : (
+            existingExpense && (
+              <ExpenseForm
+                initialData={existingExpense}
+                buttonText="Update Expense"
+                onSubmit={handleUpdateExpense}
+              />
+            )
+          )}
         </main>
       </div>
 

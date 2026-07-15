@@ -1,51 +1,38 @@
-import { useNavigate, useParams } from "react-router-dom";
-import ExpenseForm from "../components/ExpenseForm";
-import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
-import Footer from "../components/Footer";
-import "../styles/expense.css";
+import api from "./api";
 
-function EditExpense() {
-  const { id } = useParams();
-  const navigate = useNavigate();
+// Get all expenses for the logged-in user -> GET /api/expenses
+// params example: { search: "lunch", category: "Food" }
+export const getExpenses = async (params = {}) => {
+  const response = await api.get("/expenses", { params });
+  return response.data.expenses; // backend returns { expenses, pagination }
+};
 
-  // Temporary dummy data
-  // Later replace with API call using the id
-  const existingExpense = {
-    title: "Lunch",
-    amount: 250,
-    category: "Food",
-    date: "2026-07-14",
-    description: "Lunch at restaurant",
-  };
+// Get a single expense (used to prefill the Edit Expense form) -> GET /api/expenses/:id
+export const getExpenseById = async (id) => {
+  const response = await api.get(`/expenses/${id}`);
+  return response.data;
+};
 
-  const handleUpdateExpense = (updatedExpense) => {
-    console.log("Updated Expense:", updatedExpense);
+// Create a new expense -> POST /api/expenses
+export const createExpense = async (expenseData) => {
+  const response = await api.post("/expenses", expenseData);
+  return response.data;
+};
 
-    alert("Expense updated successfully!");
+// Update an expense -> PUT /api/expenses/:id
+export const updateExpense = async (id, expenseData) => {
+  const response = await api.put(`/expenses/${id}`, expenseData);
+  return response.data;
+};
 
-    navigate("/expenses");
-  };
+// Delete an expense -> DELETE /api/expenses/:id
+export const deleteExpense = async (id) => {
+  const response = await api.delete(`/expenses/${id}`);
+  return response.data;
+};
 
-  return (
-    <>
-      <Navbar />
-
-      <div className="dashboard-content">
-        <Sidebar />
-
-        <main className="dashboard-main">
-          <ExpenseForm
-            initialData={existingExpense}
-            buttonText="Update Expense"
-            onSubmit={handleUpdateExpense}
-          />
-        </main>
-      </div>
-
-      <Footer />
-    </>
-  );
-}
-
-export default EditExpense;
+// Dashboard summary cards + recent expenses -> GET /api/expenses/dashboard-summary
+export const getDashboardSummary = async () => {
+  const response = await api.get("/expenses/dashboard-summary");
+  return response.data; // { totalIncome, totalExpense, balance, thisMonth, recentExpenses }
+};

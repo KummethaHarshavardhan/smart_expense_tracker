@@ -33,10 +33,14 @@ function AppRoutes() {
       <Route path="/edit-expense/:id" element={<EditExpense />} />
 
       {/* Analytics */}
-<Route path="/analytics" element={<Analytics />} />
+      <Route path="/analytics" element={<Analytics />} />
 
-{/* Profile */}
-<Route path="/profile" element={<Profile />} />
+      
+      
+      {/* Profile */}
+      <Route path="/profile" element={<Profile />} />
+
+      
 
       {/* Redirect Unknown Routes */}
       <Route path="*" element={<Navigate to="/" replace />} />
