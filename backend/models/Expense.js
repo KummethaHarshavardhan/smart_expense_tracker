@@ -25,11 +25,6 @@ const expenseSchema = new mongoose.Schema(
       trim: true,
       default: 'Other',
     },
-    paymentMethod: {
-      type: String,
-      enum: ['Cash', 'Card', 'UPI', 'NetBanking', 'Wallet', 'Other'],
-      default: 'Cash',
-    },
     date: {
       type: Date,
       default: Date.now,

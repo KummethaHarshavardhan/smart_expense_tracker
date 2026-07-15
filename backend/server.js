@@ -8,7 +8,7 @@ require('./config/db');
 
 const authRoutes = require('./routes/authRoutes');
 const expenseRoutes = require('./routes/expenseRoutes');
-const budgetRoutes = require('./routes/budgetRoutes');
+
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
 const app = express();
@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/expenses', expenseRoutes);
-app.use('/api/budgets', budgetRoutes);
+
 
 // Keep these two last, in this order
 app.use(notFound);

@@ -25,11 +25,7 @@ const UserSchema = new mongoose.Schema(
       enum: ['user', 'admin'],
       default: 'user',
     },
-    monthlyIncome: {
-      type: Number,
-      default: 0,
-      min: 0,
-    },
+    
   },
   { timestamps: true }
 );
