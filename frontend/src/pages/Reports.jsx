@@ -6,6 +6,7 @@ import PieChart from "../components/PieChart";
 import BarChart from "../components/BarChart";
 import Loader from "../components/Loader";
 import { getCategoryBreakdown, getMonthlyReport } from "../services/reportService";
+import { connectSocket } from "../services/socket";
 import "../styles/report.css";
 
 function Reports() {
@@ -15,6 +16,18 @@ function Reports() {
 
   useEffect(() => {
     loadReports();
+
+    const socket = connectSocket();
+    const handler = (msg) => {
+      if (msg && (msg.resource === 'expense' || msg.resource === 'income')) {
+        loadReports();
+      }
+    };
+    socket.on('dataUpdated', handler);
+
+    return () => {
+      socket.off('dataUpdated', handler);
+    };
   }, []);
 
   const loadReports = async () => {

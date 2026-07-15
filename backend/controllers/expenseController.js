@@ -1,6 +1,7 @@
 const asyncHandler = require('../utils/asyncHandler');
 const Expense = require('../models/Expense');
 const Income = require('../models/Income');
+const socketUtil = require('../utils/socket');
 
 // @route POST /api/expenses
 const createExpense = asyncHandler(async (req, res) => {
@@ -15,6 +16,12 @@ const createExpense = asyncHandler(async (req, res) => {
     date,
     description,
   });
+
+  try {
+    socketUtil.getIo().to(req.user._id.toString()).emit('dataUpdated', { resource: 'expense', action: 'create', payload: expense });
+  } catch (e) {
+    // socket may not be initialized in some environments
+  }
 
   res.status(201).json(expense);
 });
@@ -90,6 +97,10 @@ const updateExpense = asyncHandler(async (req, res) => {
   if (description !== undefined) expense.description = description;
 
   await expense.save();
+  try {
+    socketUtil.getIo().to(req.user._id.toString()).emit('dataUpdated', { resource: 'expense', action: 'update', payload: expense });
+  } catch (e) {}
+
   res.status(200).json(expense);
 });
 
@@ -99,6 +110,10 @@ const deleteExpense = asyncHandler(async (req, res) => {
   if (!expense) {
     return res.status(404).json({ message: 'Expense not found' });
   }
+  try {
+    socketUtil.getIo().to(req.user._id.toString()).emit('dataUpdated', { resource: 'expense', action: 'delete', payload: { id: req.params.id } });
+  } catch (e) {}
+
   res.status(200).json({ message: 'Expense deleted successfully' });
 });
 

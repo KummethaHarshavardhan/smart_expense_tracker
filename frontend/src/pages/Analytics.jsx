@@ -9,6 +9,7 @@ import {
   getCategoryBreakdown,
   getMonthlyReport,
 } from "../services/reportService";
+import { connectSocket } from "../services/socket";
 import "../styles/report.css";
 
 function Analytics() {
@@ -18,6 +19,19 @@ function Analytics() {
 
   useEffect(() => {
     loadAnalytics();
+
+    const socket = connectSocket();
+    const handler = (msg) => {
+      // refresh when expenses or incomes change
+      if (msg && (msg.resource === 'expense' || msg.resource === 'income')) {
+        loadAnalytics();
+      }
+    };
+    socket.on('dataUpdated', handler);
+
+    return () => {
+      socket.off('dataUpdated', handler);
+    };
   }, []);
 
   const loadAnalytics = async () => {
