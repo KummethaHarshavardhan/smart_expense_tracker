@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FaEnvelope, FaLock } from "react-icons/fa";
 import { loginUser } from "../services/authService";
 import "../styles/login.css";
 
@@ -40,55 +41,73 @@ function Login() {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>Login</h2>
+
+        <h2>Welcome Back 👋</h2>
+
+        <p className="auth-subtitle">
+          Login to continue managing your expenses.
+        </p>
 
         {error && <p className="error-text">{error}</p>}
 
         <form onSubmit={handleSubmit}>
 
           <div className="input-group">
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter your email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
+            <label>Email Address</label>
+
+            <div className="input-box">
+              <FaEnvelope className="input-icon" />
+
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                value={formData.email}
+                onChange={handleChange}
+                autoComplete="email"
+                required
+              />
+            </div>
           </div>
 
           <div className="input-group">
             <label>Password</label>
 
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Enter your password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
+            <div className="input-box">
+              <FaLock className="input-icon" />
+
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleChange}
+                autoComplete="current-password"
+                required
+              />
+            </div>
 
             <div className="checkbox-group">
-              <input
-                type="checkbox"
-                id="showPassword"
-                onChange={() => setShowPassword(!showPassword)}
-              />
-              <label htmlFor="showPassword">Show Password</label>
+              <label>
+                <input
+                  type="checkbox"
+                  onChange={() => setShowPassword(!showPassword)}
+                />
+                Show Password
+              </label>
+
+              <a href="#">Forgot Password?</a>
             </div>
           </div>
 
-          <button type="submit" className="btn" disabled={loading}>
+          <button className="btn" disabled={loading}>
             {loading ? "Logging in..." : "Login"}
           </button>
 
         </form>
 
         <p className="auth-link">
-          Don't have an account?{" "}
-          <Link to="/register">Register</Link>
+          Don't have an account? <Link to="/register">Create Account</Link>
         </p>
 
       </div>

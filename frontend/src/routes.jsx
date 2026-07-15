@@ -6,13 +6,14 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 
-import Reports from "./pages/Reports";
-import Analytics from "./pages/Analytics";
-
-// Expense Management Pages
+// Expense Management
 import ExpenseList from "./pages/ExpenseList";
 import AddExpense from "./pages/AddExpense";
 import EditExpense from "./pages/EditExpense";
+
+// Reports & Analytics
+import Reports from "./pages/Reports";
+import Analytics from "./pages/Analytics";
 
 function AppRoutes() {
   return (
@@ -32,15 +33,14 @@ function AppRoutes() {
       <Route path="/add-expense" element={<AddExpense />} />
       <Route path="/edit-expense/:id" element={<EditExpense />} />
 
+      {/* Reports */}
+      <Route path="/reports" element={<Reports />} />
+
       {/* Analytics */}
       <Route path="/analytics" element={<Analytics />} />
 
-      
-      
       {/* Profile */}
       <Route path="/profile" element={<Profile />} />
-
-      
 
       {/* Redirect Unknown Routes */}
       <Route path="*" element={<Navigate to="/" replace />} />

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
@@ -35,20 +36,52 @@ function Dashboard() {
         <Sidebar />
 
         <main className="dashboard-main">
-          <h2>Dashboard</h2>
-          <p>Welcome to Smart Expense Tracker 👋</p>
+
+          <div className="dashboard-header">
+            <div>
+              <h2>Dashboard</h2>
+              <p>Welcome to Smart Expense Tracker 👋</p>
+            </div>
+
+            <div className="dashboard-actions">
+              <Link to="/add-expense">
+                <button>Add Expense</button>
+              </Link>
+
+              <Link to="/expenses">
+                <button>View Expenses</button>
+              </Link>
+            </div>
+          </div>
 
           <div className="summary-section">
-            <SummaryCard title="Total Income" amount={`₹${summary.totalIncome}`} />
-            <SummaryCard title="Total Expense" amount={`₹${summary.totalExpense}`} />
-            <SummaryCard title="Balance" amount={`₹${summary.balance}`} />
-            <SummaryCard title="This Month" amount={`₹${summary.thisMonth}`} />
+            <SummaryCard
+              title="Total Income"
+              amount={`₹${summary.totalIncome}`}
+            />
+
+            <SummaryCard
+              title="Total Expense"
+              amount={`₹${summary.totalExpense}`}
+            />
+
+            <SummaryCard
+              title="Balance"
+              amount={`₹${summary.balance}`}
+            />
+
+            <SummaryCard
+              title="This Month"
+              amount={`₹${summary.thisMonth}`}
+            />
           </div>
 
           <div className="recent-expenses">
+
             <h3>Recent Expenses</h3>
 
-            <table>
+            <table className="expense-table">
+
               <thead>
                 <tr>
                   <th>Title</th>
@@ -74,9 +107,11 @@ function Dashboard() {
                   ))
                 )}
               </tbody>
+
             </table>
 
           </div>
+
         </main>
       </div>
 
