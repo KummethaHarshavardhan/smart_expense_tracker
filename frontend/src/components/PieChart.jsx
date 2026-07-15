@@ -1,73 +1,74 @@
-function PieChart({ data }) {
-	const defaultData = [
-		{ label: "Food", value: 400, color: "#4caf50" },
-		{ label: "Transport", value: 150, color: "#2196f3" },
-		{ label: "Shopping", value: 250, color: "#ff9800" },
-		{ label: "Bills", value: 200, color: "#f44336" },
-	];
+import {
+  PieChart as RePieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
-	const slices = data && data.length ? data : defaultData;
-	const total = slices.reduce((sum, s) => sum + (s.value || 0), 0) || 1;
+const COLORS = [
+  "#3B82F6",
+  "#10B981",
+  "#F59E0B",
+  "#EF4444",
+  "#8B5CF6",
+  "#06B6D4",
+];
 
-	let cumulative = 0;
+function PieChart({ data = [] }) {
+  const chartData =
+    data && data.length > 0
+      ? data.map((item, index) => ({
+          name: item.label || item._id || item.name || `Category ${index + 1}`,
+          value: item.value || item.total || item.amount || 0,
+          color: item.color || COLORS[index % COLORS.length],
+        }))
+      : [
+          { name: "Food", value: 6500, color: COLORS[0] },
+          { name: "Travel", value: 3200, color: COLORS[1] },
+          { name: "Bills", value: 4000, color: COLORS[2] },
+          { name: "Shopping", value: 4800, color: COLORS[3] },
+          { name: "Entertainment", value: 1800, color: COLORS[4] },
+        ];
 
-	const radius = 80;
-	const center = 100;
+  return (
+    <div
+      style={{
+        background: "#fff",
+        borderRadius: "15px",
+        padding: "20px",
+        height: "500px",
+        boxShadow: "0 4px 20px rgba(0,0,0,.08)",
+      }}
+    >
+      <ResponsiveContainer width="100%" height="90%">
+        <RePieChart>
+          <Pie
+            data={chartData}
+            dataKey="value"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            innerRadius={80}
+            outerRadius={140}
+            paddingAngle={3}
+            label={({ name, percent }) =>
+              `${name} ${(percent * 100).toFixed(0)}%`
+            }
+          >
+            {chartData.map((entry, index) => (
+              <Cell key={`${entry.name}-${index}`} fill={entry.color} />
+            ))}
+          </Pie>
 
-	const polarToCartesian = (cx, cy, r, angleInDeg) => {
-		const angleInRad = ((angleInDeg - 90) * Math.PI) / 180.0;
-		return {
-			x: cx + r * Math.cos(angleInRad),
-			y: cy + r * Math.sin(angleInRad),
-		};
-	};
+          <Tooltip formatter={(value) => `₹${Number(value).toLocaleString()}`} />
 
-	const describeArc = (cx, cy, r, startAngle, endAngle) => {
-		const start = polarToCartesian(cx, cy, r, endAngle);
-		const end = polarToCartesian(cx, cy, r, startAngle);
-		const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
-		return [
-			`M ${cx} ${cy}`,
-			`L ${start.x} ${start.y}`,
-			`A ${r} ${r} 0 ${largeArcFlag} 0 ${end.x} ${end.y}`,
-			`Z`,
-		].join(" ");
-	};
-
-	return (
-		<div className="chart-card pie-card">
-			<h3>Category Breakdown</h3>
-
-			<div className="pie-chart-wrapper">
-				<svg width="200" height="200" viewBox="0 0 200 200" className="pie-chart">
-					{slices.map((slice, i) => {
-						const startAngle = (cumulative / total) * 360;
-						cumulative += slice.value || 0;
-						const endAngle = (cumulative / total) * 360;
-
-						return (
-							<path
-								key={i}
-								d={describeArc(center, center, radius, startAngle, endAngle)}
-								fill={slice.color || `hsl(${(i * 60) % 360},70%,50%)`}
-							/>
-						);
-					})}
-				</svg>
-
-				<ul className="legend">
-					{slices.map((s, i) => (
-						<li key={i} className="legend-item">
-							<span className="legend-color" style={{ background: s.color }}></span>
-							<span className="legend-label">{s.label}</span>
-							<span className="legend-value">{s.value}</span>
-						</li>
-					))}
-				</ul>
-			</div>
-		</div>
-	);
+          <Legend verticalAlign="bottom" height={36} />
+        </RePieChart>
+      </ResponsiveContainer>
+    </div>
+  );
 }
 
 export default PieChart;
-

@@ -1,57 +1,137 @@
-/* Styles for reports and charts */
-.chart-card {
-  background: #fff;
-  border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-  margin-bottom: 16px;
-}
+/* ===========================
+   Report & Analytics Styles
+=========================== */
 
-.pie-card .pie-chart-wrapper {
+.report-header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
 }
 
-.pie-chart {
-  flex: 0 0 200px;
+.report-header h2 {
+  margin: 0;
+  color: #1e293b;
 }
+
+.report-header p {
+  margin: 6px 0 0;
+  color: #64748b;
+}
+
+.report-header button {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 16px;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.report-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.report-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.report-card h4 {
+  margin: 0 0 8px;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.report-card h2 {
+  margin: 0;
+  color: #111827;
+  font-size: 1.5rem;
+}
+
+.chart-card {
+  background: #fff;
+  padding: 25px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
+  margin-bottom: 20px;
+}
+
+.chart-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.chart-card h3 {
+  color: #1e293b;
+  margin-bottom: 20px;
+}
+
+/* Pie Chart */
+
+.pie-chart-container {
+  width: 100%;
+  height: 420px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Bar Chart */
+
+.bar-chart-container {
+  width: 100%;
+  height: 420px;
+}
+
+/* Legend */
 
 .legend {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin-top: 20px;
 }
 
 .legend-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .legend-color {
-  width: 14px;
-  height: 14px;
-  border-radius: 3px;
-  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 4px;
+  margin-right: 10px;
 }
 
 .legend-label {
-  min-width: 80px;
+  flex: 1;
 }
 
 .legend-value {
-  margin-left: auto;
-  font-weight: 600;
+  font-weight: bold;
 }
 
-.reports-grid {
+/* Reports Layout */
+
+.reports-grid,
+.analytics-grid {
   display: grid;
-  grid-template-columns: 360px 1fr;
-  gap: 16px;
-  align-items: start;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 25px;
 }
+
+/* Table */
 
 .reports-table {
   width: 100%;
@@ -60,21 +140,25 @@
 
 .reports-table th,
 .reports-table td {
-  padding: 8px 12px;
+  padding: 12px;
   border-bottom: 1px solid #eee;
   text-align: left;
 }
 
-.analytics-grid {
-  display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 16px;
-  align-items: start;
+.reports-table th {
+  background: #f8fafc;
 }
 
-@media (max-width: 800px) {
+/* Mobile */
+
+@media (max-width: 768px) {
   .reports-grid,
   .analytics-grid {
     grid-template-columns: 1fr;
+  }
+
+  .pie-chart-container,
+  .bar-chart-container {
+    height: 320px;
   }
 }

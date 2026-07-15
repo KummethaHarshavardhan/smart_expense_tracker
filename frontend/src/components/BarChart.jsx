@@ -1,36 +1,75 @@
-function BarChart({ data }) {
-  const defaultExpenses = [
-    { month: "Jan", amount: 3500 },
-    { month: "Feb", amount: 4200 },
-    { month: "Mar", amount: 5100 },
-    { month: "Apr", amount: 3800 },
-    { month: "May", amount: 4600 },
-  ];
+import {
+  BarChart as ReBarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  ResponsiveContainer,
+} from "recharts";
 
-  const expenses = data && data.length ? data : defaultExpenses;
 
-  const maxAmount = Math.max(...expenses.map((item) => item.amount)) || 1;
+function BarChart({ data = [] }) {
+
+
+  const formattedData = data.map((item)=>({
+
+    month:
+      item.month || item._id || "Month",
+
+    amount:
+      item.total ||
+      item.amount ||
+      0
+
+  }));
+
 
   return (
-    <div className="chart-card">
-      <h3>Monthly Expenses</h3>
 
-      <div className="bar-chart">
-        {expenses.map((item) => (
-          <div key={item.month} className="bar-item">
-            <div
-              className="bar"
-              style={{
-                height: `${(item.amount / maxAmount) * 180}px`,
-              }}
-            ></div>
+    <div className="bar-chart-container">
 
-            <p>{item.month}</p>
-          </div>
-        ))}
-      </div>
+      <ResponsiveContainer width="100%" height={350}>
+
+        <ReBarChart data={formattedData}>
+
+
+          <CartesianGrid
+            strokeDasharray="3 3"
+          />
+
+
+          <XAxis
+            dataKey="month"
+          />
+
+
+          <YAxis/>
+
+
+          <Tooltip
+            formatter={(value)=>
+              `₹${value.toLocaleString()}`
+            }
+          />
+
+
+          <Bar
+            dataKey="amount"
+            fill="#2563eb"
+            radius={[8,8,0,0]}
+          />
+
+
+        </ReBarChart>
+
+      </ResponsiveContainer>
+
     </div>
+
   );
+
 }
+
 
 export default BarChart;
