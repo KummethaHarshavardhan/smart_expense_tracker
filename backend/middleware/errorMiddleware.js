@@ -1,22 +1,19 @@
-// Catches requests that don't match any route
 const notFound = (req, res, next) => {
   const error = new Error(`Route not found - ${req.originalUrl}`);
   res.status(404);
   next(error);
 };
 
-// Central error handler - keep this as the LAST app.use() in server.js
 const errorHandler = (err, req, res, next) => {
   let statusCode = res.statusCode && res.statusCode !== 200 ? res.statusCode : 500;
   let message = err.message || 'Something went wrong';
 
-  // Mongoose bad ObjectId
+
   if (err.name === 'CastError' && err.kind === 'ObjectId') {
     statusCode = 404;
     message = 'Resource not found';
   }
 
-  // Mongoose duplicate key (e.g. email already registered, or duplicate budget)
   if (err.code === 11000) {
     statusCode = 400;
     const field = Object.keys(err.keyValue || {}).join(', ');

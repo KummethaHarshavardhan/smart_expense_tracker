@@ -20,14 +20,14 @@ const createExpense = asyncHandler(async (req, res) => {
   try {
     socketUtil.getIo().to(req.user._id.toString()).emit('dataUpdated', { resource: 'expense', action: 'create', payload: expense });
   } catch (e) {
-    // socket may not be initialized in some environments
+    
   }
 
   res.status(201).json(expense);
 });
 
 // @route GET /api/expenses
-// Supports: ?category=Food&startDate=&endDate=&search=&page=1&limit=10&sort=date:desc
+
 const getExpenses = asyncHandler(async (req, res) => {
   const { category, startDate, endDate, search, page = 1, limit = 10, sort = 'date:desc' } = req.query;
 
@@ -118,7 +118,7 @@ const deleteExpense = asyncHandler(async (req, res) => {
 });
 
 // @route GET /api/expenses/summary
-// Totals grouped by category - feeds pie/bar charts
+
 const getExpenseSummary = asyncHandler(async (req, res) => {
   const summary = await Expense.aggregate([
     { $match: { user: req.user._id } },
@@ -132,7 +132,7 @@ const getExpenseSummary = asyncHandler(async (req, res) => {
 });
 
 // @route GET /api/expenses/monthly-report?year=2026
-// Totals grouped by month for a given year - feeds a year-over-year bar chart
+
 const getMonthlyReport = asyncHandler(async (req, res) => {
   const year = Number(req.query.year) || new Date().getFullYear();
 
@@ -153,7 +153,7 @@ const getMonthlyReport = asyncHandler(async (req, res) => {
     { $sort: { _id: 1 } },
   ]);
 
-  // Fill in months with zero spending so the chart has all 12 points
+ 
   const months = Array.from({ length: 12 }, (_, i) => {
     const found = report.find((r) => r._id === i + 1);
     return { month: i + 1, total: found ? found.total : 0, count: found ? found.count : 0 };
@@ -163,7 +163,7 @@ const getMonthlyReport = asyncHandler(async (req, res) => {
 });
 
 // @route GET /api/expenses/export
-// Downloads all of the user's expenses as a CSV file
+
 const exportExpensesCsv = asyncHandler(async (req, res) => {
   const expenses = await Expense.find({ user: req.user._id }).sort({ date: -1 });
 
@@ -188,7 +188,7 @@ const exportExpensesCsv = asyncHandler(async (req, res) => {
 });
 
 // @route GET /api/expenses/dashboard-summary
-// Feeds the Dashboard page: Total Income, Total Expense, Balance, This Month, Recent Expenses
+
 const getDashboardSummary = asyncHandler(async (req, res) => {
   const now = new Date();
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);

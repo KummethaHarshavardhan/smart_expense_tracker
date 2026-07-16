@@ -15,10 +15,8 @@ const {
 const { protect } = require('../middleware/authMiddleware');
 const { validateExpense } = require('../middleware/validateMiddleware');
 
-// Every expense route requires a logged-in user
 router.use(protect);
 
-// These must come before the /:id routes, or "summary" etc. would be read as an :id
 router.get('/summary', getExpenseSummary);
 router.get('/monthly-report', getMonthlyReport);
 router.get('/export', exportExpensesCsv);

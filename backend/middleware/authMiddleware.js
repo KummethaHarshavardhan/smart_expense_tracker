@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const asyncHandler = require('../utils/asyncHandler');
 const Users = require('../models/users');
 
-// Requires a valid "Bearer <token>" in the Authorization header
+
 const protect = asyncHandler(async (req, res, next) => {
   let token;
 
@@ -28,7 +28,7 @@ const protect = asyncHandler(async (req, res, next) => {
   }
 });
 
-// Optional extra layer for admin-only routes
+
 const adminOnly = (req, res, next) => {
   if (req.user && req.user.role === 'admin') {
     return next();

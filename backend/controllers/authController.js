@@ -91,7 +91,7 @@ const changePassword = asyncHandler(async (req, res) => {
 });
 
 // @route POST /api/auth/forgot-password
-// Generates a 6-digit OTP, saves it (with a 10-min expiry) on the user, emails it
+
 const forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.body;
 
@@ -101,13 +101,13 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
   const user = await Users.findOne({ email: email.toLowerCase() });
   if (!user) {
-    // Don't reveal whether the email exists - just say it was sent either way
+    
     return res.status(200).json({ message: 'If that email exists, an OTP has been sent' });
   }
 
-  const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
   user.resetOtp = otp;
-  user.resetOtpExpiry = new Date(Date.now() + 10 * 60 * 1000); // valid for 10 minutes
+  user.resetOtpExpiry = new Date(Date.now() + 10 * 60 * 1000); 
   await user.save();
 
   await sendEmail({
@@ -125,7 +125,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
 });
 
 // @route POST /api/auth/reset-password
-// Verifies the OTP and, if valid and not expired, sets the new password
+
 const resetPassword = asyncHandler(async (req, res) => {
   const { email, otp, newPassword } = req.body;
 
@@ -148,7 +148,7 @@ const resetPassword = asyncHandler(async (req, res) => {
     return res.status(400).json({ message: 'Invalid or expired OTP' });
   }
 
-  user.password = newPassword; // pre-save hook hashes it
+  user.password = newPassword; 
   user.resetOtp = null;
   user.resetOtpExpiry = null;
   await user.save();

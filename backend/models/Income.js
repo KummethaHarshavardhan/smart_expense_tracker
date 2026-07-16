@@ -17,7 +17,7 @@ const incomeSchema = new mongoose.Schema(
       required: [true, 'Amount is required'],
       min: [0, 'Amount cannot be negative'],
     },
-    // Free text, same pattern as Expense.category - Salary, Freelance, Business, etc.
+   
     category: {
       type: String,
       required: [true, 'Category is required'],
@@ -37,7 +37,7 @@ const incomeSchema = new mongoose.Schema(
   {
     timestamps: true,
     toJSON: {
-      virtuals: true, // adds `id` alongside `_id`, matching Expense model behavior
+      virtuals: true, 
       transform: (doc, ret) => {
         if (ret.date instanceof Date) {
           ret.date = ret.date.toISOString().split('T')[0];

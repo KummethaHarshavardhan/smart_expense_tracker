@@ -26,7 +26,6 @@ app.use('/api/expenses', expenseRoutes);
 app.use('/api/income', incomeRoutes);
 
 
-// Keep these two last, in this order
 app.use(notFound);
 app.use(errorHandler);
 
@@ -34,7 +33,6 @@ const PORT = process.env.PORT || 5000;
 const http = require('http');
 const server = http.createServer(app);
 
-// initialize socket.io
 const socketUtil = require('./utils/socket');
 socketUtil.init(server);
 

@@ -1,7 +1,5 @@
 const nodemailer = require('nodemailer');
 
-// Reusable email sender. Uses Gmail here - swap the service/host if you use
-// a different provider. Credentials come from .env, never hardcoded.
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {

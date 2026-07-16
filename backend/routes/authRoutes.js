@@ -16,7 +16,6 @@ const { validateRegister, validateLogin } = require('../middleware/validateMiddl
 router.post('/register', validateRegister, registerUser);
 router.post('/login', validateLogin, loginUser);
 
-// No protect middleware here - the user isn't logged in yet during this flow
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password', resetPassword);
 

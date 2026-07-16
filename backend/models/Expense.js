@@ -17,8 +17,6 @@ const expenseSchema = new mongoose.Schema(
       required: [true, 'Amount is required'],
       min: [0, 'Amount cannot be negative'],
     },
-    // Free text so the frontend can offer any category list without backend changes.
-    // A default set is suggested in categoryConstants.js for the UI to use.
     category: {
       type: String,
       required: [true, 'Category is required'],
@@ -29,7 +27,6 @@ const expenseSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    // Matches the ExpenseForm.jsx textarea field name exactly
     description: {
       type: String,
       trim: true,
@@ -39,9 +36,8 @@ const expenseSchema = new mongoose.Schema(
   {
     timestamps: true,
     toJSON: {
-      virtuals: true, // adds an `id` string field alongside `_id`, since the frontend reads `expense.id`
+      virtuals: true, 
       transform: (doc, ret) => {
-        // Send date as a plain YYYY-MM-DD string so it drops straight into <input type="date">
         if (ret.date instanceof Date) {
           ret.date = ret.date.toISOString().split('T')[0];
         }
@@ -52,7 +48,7 @@ const expenseSchema = new mongoose.Schema(
   }
 );
 
-// Speeds up "get my expenses sorted by date" and category-filtered queries
+
 expenseSchema.index({ user: 1, date: -1 });
 expenseSchema.index({ user: 1, category: 1 });
 
