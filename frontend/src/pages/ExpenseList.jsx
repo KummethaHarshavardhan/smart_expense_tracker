@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ExpenseTable from "../components/ExpenseTable";
-import ExpenseCard from "../components/ExpenseCard";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
@@ -41,7 +40,10 @@ function ExpenseList() {
 
     try {
       await deleteExpense(id);
-      setExpenses(expenses.filter((expense) => expense.id !== id));
+
+      setExpenses((prevExpenses) =>
+        prevExpenses.filter((expense) => expense.id !== id)
+      );
     } catch (err) {
       alert(err?.message || "Failed to delete expense");
     }
@@ -52,13 +54,10 @@ function ExpenseList() {
       <Navbar />
 
       <div className="dashboard-content">
-
         <Sidebar />
 
         <main className="dashboard-main">
-
           <div className="expense-page-header">
-
             <div>
               <h2>Expense Management</h2>
               <p>Manage, search and organize your daily expenses.</p>
@@ -67,11 +66,9 @@ function ExpenseList() {
             <Link to="/add-expense">
               <button>Add Expense</button>
             </Link>
-
           </div>
 
           <div className="expense-filters">
-
             <input
               type="text"
               placeholder="🔍 Search expenses..."
@@ -92,39 +89,22 @@ function ExpenseList() {
               <option value="Healthcare">Healthcare</option>
               <option value="Others">Others</option>
             </select>
-
           </div>
 
           {loading ? (
             <Loader />
+          ) : expenses.length === 0 ? (
+            <div className="empty-expense">
+              <h3>No expenses found</h3>
+              <p>Try changing your search or add a new expense.</p>
+            </div>
           ) : (
-            <>
-              <ExpenseTable
-                expenses={expenses}
-                onDelete={handleDelete}
-              />
-
-              <div className="expense-card-grid">
-                {expenses.length === 0 ? (
-                  <div className="empty-expense">
-                    <h3>No expenses found</h3>
-                    <p>Try changing your search or add a new expense.</p>
-                  </div>
-                ) : (
-                  expenses.map((expense) => (
-                    <ExpenseCard
-                      key={expense.id}
-                      expense={expense}
-                      onDelete={handleDelete}
-                    />
-                  ))
-                )}
-              </div>
-            </>
+            <ExpenseTable
+              expenses={expenses}
+              onDelete={handleDelete}
+            />
           )}
-
         </main>
-
       </div>
 
       <Footer />
