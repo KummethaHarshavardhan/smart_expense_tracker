@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+import {
+  FaUser,
+  FaEnvelope,
+  FaLock,
+  FaEye,
+  FaEyeSlash,
+} from "react-icons/fa";
 import { registerUser } from "../services/authService";
 import "../styles/login.css";
 
@@ -15,6 +21,7 @@ function Register() {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -94,49 +101,58 @@ function Register() {
           </div>
 
           <div className="input-group">
-            <label>Password</label>
+  <label>Password</label>
 
-            <div className="input-box">
-              <FaLock className="input-icon" />
+  <div className="input-box">
 
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                placeholder="Minimum 6 characters"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </div>
+    <FaLock className="input-icon" />
+
+    <input
+      type={showPassword ? "text" : "password"}
+      name="password"
+      placeholder="Minimum 6 characters"
+      value={formData.password}
+      onChange={handleChange}
+      required
+    />
+
+    <span
+      className="password-toggle"
+      onClick={() => setShowPassword(!showPassword)}
+    >
+      {showPassword ? <FaEyeSlash /> : <FaEye />}
+    </span>
+
+  </div>
+</div>
 
           <div className="input-group">
-            <label>Confirm Password</label>
+  <label>Confirm Password</label>
 
-            <div className="input-box">
-              <FaLock className="input-icon" />
+  <div className="input-box">
 
-              <input
-                type={showPassword ? "text" : "password"}
-                name="confirmPassword"
-                placeholder="Confirm password"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </div>
+    <FaLock className="input-icon" />
 
-          <div className="checkbox-group">
-            <label>
-              <input
-                type="checkbox"
-                checked={showPassword}
-                onChange={() => setShowPassword(!showPassword)}
-              />
-              Show Password
-            </label>
-          </div>
+    <input
+      type={showConfirmPassword ? "text" : "password"}
+      name="confirmPassword"
+      placeholder="Confirm password"
+      value={formData.confirmPassword}
+      onChange={handleChange}
+      required
+    />
+
+    <span
+      className="password-toggle"
+      onClick={() =>
+        setShowConfirmPassword(!showConfirmPassword)
+      }
+    >
+      {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+    </span>
+
+  </div>
+</div>
 
           <button className="btn" disabled={loading}>
             {loading ? "Creating Account..." : "Register"}

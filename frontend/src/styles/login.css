@@ -1,3 +1,7 @@
+/* ==========================================
+   Authentication Page
+========================================== */
+
 .auth-container{
     min-height:100vh;
     display:flex;
@@ -13,7 +17,7 @@
     background:#fff;
     padding:40px;
     border-radius:18px;
-    box-shadow:0 15px 35px rgba(0,0,0,.2);
+    box-shadow:0 15px 35px rgba(0,0,0,.20);
 }
 
 .auth-card h2{
@@ -21,13 +25,19 @@
     color:#0f172a;
     margin-bottom:8px;
     font-size:34px;
+    font-weight:700;
 }
 
 .auth-subtitle{
     text-align:center;
     color:#64748b;
     margin-bottom:28px;
+    line-height:1.5;
 }
+
+/* ==========================================
+   Form Fields
+========================================== */
 
 .input-group{
     margin-bottom:18px;
@@ -41,46 +51,86 @@
 }
 
 .input-box{
+    position:relative;
     display:flex;
     align-items:center;
     background:#f8fafc;
     border:1px solid #cbd5e1;
     border-radius:10px;
     padding:0 14px;
-    transition:.3s;
+    transition:0.3s;
 }
 
 .input-box:focus-within{
     border-color:#2563eb;
     box-shadow:0 0 0 4px rgba(37,99,235,.15);
+    background:#fff;
 }
 
 .input-icon{
     color:#2563eb;
     font-size:18px;
     margin-right:10px;
+    flex-shrink:0;
 }
 
 .input-box input{
     width:100%;
     border:none;
     background:transparent;
-    padding:14px 0;
     outline:none;
+    padding:14px 42px 14px 0;
     font-size:15px;
 }
 
-.checkbox-group{
-    margin:20px 0;
-}
+/* ==========================================
+   Password Eye Icon
+========================================== */
 
-.checkbox-group label{
+.password-toggle{
+    position:absolute;
+    right:16px;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:pointer;
+    color:#64748b;
+    font-size:18px;
     display:flex;
     align-items:center;
-    gap:8px;
-    cursor:pointer;
-    color:#475569;
+    justify-content:center;
+    transition:0.3s;
 }
+
+.password-toggle:hover{
+    color:#2563eb;
+}
+
+/* ==========================================
+   Forgot Password
+========================================== */
+
+.checkbox-group{
+    display:flex;
+    justify-content:flex-end;
+    align-items:center;
+    margin:18px 0 24px;
+}
+
+.checkbox-group a{
+    color:#2563eb;
+    font-size:14px;
+    font-weight:600;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+.checkbox-group a:hover{
+    text-decoration:underline;
+}
+
+/* ==========================================
+   Button
+========================================== */
 
 .btn{
     width:100%;
@@ -92,28 +142,43 @@
     font-size:16px;
     font-weight:600;
     cursor:pointer;
-    transition:.3s;
+    transition:0.3s;
 }
 
-.btn:hover{
+.btn:hover:not(:disabled){
     background:#1d4ed8;
     transform:translateY(-2px);
 }
+
+.btn:disabled{
+    opacity:.7;
+    cursor:not-allowed;
+}
+
+/* ==========================================
+   Footer Links
+========================================== */
 
 .auth-link{
     margin-top:24px;
     text-align:center;
     color:#475569;
+    font-size:15px;
 }
 
 .auth-link a{
     color:#2563eb;
     font-weight:600;
+    text-decoration:none;
 }
 
 .auth-link a:hover{
     text-decoration:underline;
 }
+
+/* ==========================================
+   Messages
+========================================== */
 
 .error-text{
     background:#fee2e2;
@@ -122,7 +187,12 @@
     border-radius:8px;
     text-align:center;
     margin-bottom:20px;
+    font-weight:500;
 }
+
+/* ==========================================
+   Responsive
+========================================== */
 
 @media(max-width:500px){
 
@@ -133,5 +203,9 @@
     .auth-card h2{
         font-size:28px;
     }
-}
 
+    .input-box input{
+        font-size:14px;
+    }
+
+}

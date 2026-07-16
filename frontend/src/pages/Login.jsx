@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaEnvelope, FaLock } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { loginUser } from "../services/authService";
 import "../styles/login.css";
 
@@ -41,7 +41,6 @@ function Login() {
   return (
     <div className="auth-container">
       <div className="auth-card">
-
         <h2>Welcome Back 👋</h2>
 
         <p className="auth-subtitle">
@@ -51,7 +50,6 @@ function Login() {
         {error && <p className="error-text">{error}</p>}
 
         <form onSubmit={handleSubmit}>
-
           <div className="input-group">
             <label>Email Address</label>
 
@@ -85,32 +83,28 @@ function Login() {
                 autoComplete="current-password"
                 required
               />
+
+              <span
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
             </div>
 
             <div className="checkbox-group">
-              <label>
-                <input
-                  type="checkbox"
-                  onChange={() => setShowPassword(!showPassword)}
-                />
-                Show Password
-              </label>
-
               <Link to="/forgot-password">Forgot Password?</Link>
-
             </div>
           </div>
 
           <button className="btn" disabled={loading}>
             {loading ? "Logging in..." : "Login"}
           </button>
-
         </form>
 
         <p className="auth-link">
           Don't have an account? <Link to="/register">Create Account</Link>
         </p>
-
       </div>
     </div>
   );
