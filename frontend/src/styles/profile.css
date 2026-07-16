@@ -160,6 +160,39 @@
   margin-bottom: 18px;
 }
 
+
+/* ==========================================
+   Password Input
+========================================== */
+
+.password-input{
+    position:relative;
+    width:100%;
+}
+
+.password-input input{
+    width:100%;
+    padding-right:50px;
+}
+
+.password-eye{
+    position:absolute;
+    top:50%;
+    right:16px;
+    transform:translateY(-50%);
+    cursor:pointer;
+    color:#64748b;
+    font-size:18px;
+    transition:.3s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.password-eye:hover{
+    color:#2563eb;
+}
+
 /* ==========================================
    Responsive
 ========================================== */

@@ -10,6 +10,8 @@ import {
 } from "../services/authService";
 import "../styles/profile.css";
 
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+
 function Profile() {
   const [user, setUser] = useState(null);
 
@@ -30,6 +32,10 @@ function Profile() {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
     loadProfile();
@@ -102,7 +108,7 @@ function Profile() {
 
       await changePassword(
         passwordData.currentPassword,
-        passwordData.newPassword
+        passwordData.newPassword,
       );
 
       setSuccess("Password changed successfully.");
@@ -131,11 +137,8 @@ function Profile() {
         <Sidebar />
 
         <main className="dashboard-main">
-
           <div className="profile-page">
-
             <div className="profile-header">
-
               <div className="profile-avatar">
                 {user?.name?.charAt(0).toUpperCase()}
               </div>
@@ -143,31 +146,18 @@ function Profile() {
               <h2>{user?.name}</h2>
 
               <p>Manage your personal account information</p>
-
             </div>
 
-            {error && (
-              <div className="profile-error">
-                {error}
-              </div>
-            )}
+            {error && <div className="profile-error">{error}</div>}
 
-            {success && (
-              <div className="profile-success">
-                {success}
-              </div>
-            )}
+            {success && <div className="profile-success">{success}</div>}
 
             <div className="profile-grid">
-
               <div className="profile-card">
-
                 <h3>Edit Profile</h3>
 
                 <form onSubmit={saveProfile}>
-
                   <div className="profile-group">
-
                     <label>Full Name</label>
 
                     <input
@@ -177,11 +167,9 @@ function Profile() {
                       onChange={handleProfileChange}
                       required
                     />
-
                   </div>
 
                   <div className="profile-group">
-
                     <label>Email Address</label>
 
                     <input
@@ -191,87 +179,93 @@ function Profile() {
                       onChange={handleProfileChange}
                       required
                     />
-
                   </div>
 
-                  <button
-                    className="profile-btn"
-                    disabled={saving}
-                  >
+                  <button className="profile-btn" disabled={saving}>
                     {saving ? "Saving..." : "Save Changes"}
                   </button>
-
                 </form>
-
               </div>
 
               <div className="profile-card">
-
                 <h3>Change Password</h3>
 
                 <form onSubmit={updateUserPassword}>
-
                   <div className="profile-group">
-
                     <label>Current Password</label>
 
-                    <input
-                      type="password"
-                      name="currentPassword"
-                      value={passwordData.currentPassword}
-                      onChange={handlePasswordChange}
-                      required
-                    />
+                    <div className="password-input">
+                      <input
+                        type={showCurrentPassword ? "text" : "password"}
+                        name="currentPassword"
+                        value={passwordData.currentPassword}
+                        onChange={handlePasswordChange}
+                        required
+                      />
 
+                      <span
+                        className="password-eye"
+                        onClick={() =>
+                          setShowCurrentPassword(!showCurrentPassword)
+                        }
+                      >
+                        {showCurrentPassword ? <FaEyeSlash /> : <FaEye />}
+                      </span>
+                    </div>
                   </div>
 
                   <div className="profile-group">
-
                     <label>New Password</label>
 
-                    <input
-                      type="password"
-                      name="newPassword"
-                      value={passwordData.newPassword}
-                      onChange={handlePasswordChange}
-                      required
-                    />
+                    <div className="password-input">
+                      <input
+                        type={showNewPassword ? "text" : "password"}
+                        name="newPassword"
+                        value={passwordData.newPassword}
+                        onChange={handlePasswordChange}
+                        required
+                      />
 
+                      <span
+                        className="password-eye"
+                        onClick={() => setShowNewPassword(!showNewPassword)}
+                      >
+                        {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+                      </span>
+                    </div>
                   </div>
 
                   <div className="profile-group">
-
                     <label>Confirm Password</label>
 
-                    <input
-                      type="password"
-                      name="confirmPassword"
-                      value={passwordData.confirmPassword}
-                      onChange={handlePasswordChange}
-                      required
-                    />
+                    <div className="password-input">
+                      <input
+                        type={showConfirmPassword ? "text" : "password"}
+                        name="confirmPassword"
+                        value={passwordData.confirmPassword}
+                        onChange={handlePasswordChange}
+                        required
+                      />
 
+                      <span
+                        className="password-eye"
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
+                      >
+                        {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                      </span>
+                    </div>
                   </div>
 
-                  <button
-                    className="profile-btn"
-                    disabled={changing}
-                  >
-                    {changing
-                      ? "Changing..."
-                      : "Change Password"}
+                  <button className="profile-btn" disabled={changing}>
+                    {changing ? "Changing..." : "Change Password"}
                   </button>
-
                 </form>
-
               </div>
-
             </div>
-
           </div>
-
         </main>
-
       </div>
 
       <Footer />
