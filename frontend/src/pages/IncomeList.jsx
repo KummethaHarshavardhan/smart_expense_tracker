@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import IncomeTable from "../components/IncomeTable";
-import IncomeCard from "../components/IncomeCard";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
@@ -41,7 +40,10 @@ function IncomeList() {
 
     try {
       await deleteIncome(id);
-      setIncomes(incomes.filter((income) => income.id !== id));
+
+      setIncomes((prev) =>
+        prev.filter((income) => income._id !== id)
+      );
     } catch (err) {
       alert(err?.message || "Failed to delete income");
     }
@@ -52,13 +54,11 @@ function IncomeList() {
       <Navbar />
 
       <div className="dashboard-content">
-
         <Sidebar />
 
         <main className="dashboard-main">
 
           <div className="expense-page-header">
-
             <div>
               <h2>Income Management</h2>
               <p>Manage, search and organize your income sources.</p>
@@ -67,11 +67,9 @@ function IncomeList() {
             <Link to="/add-income">
               <button>Add Income</button>
             </Link>
-
           </div>
 
           <div className="expense-filters">
-
             <input
               type="text"
               placeholder="🔍 Search income..."
@@ -91,39 +89,23 @@ function IncomeList() {
               <option value="Gift">Gift</option>
               <option value="Others">Others</option>
             </select>
-
           </div>
 
           {loading ? (
             <Loader />
+          ) : incomes.length === 0 ? (
+            <div className="empty-expense">
+              <h3>No income entries found</h3>
+              <p>Try changing your search or add a new income.</p>
+            </div>
           ) : (
-            <>
-              <IncomeTable
-                incomes={incomes}
-                onDelete={handleDelete}
-              />
-
-              <div className="expense-card-grid">
-                {incomes.length === 0 ? (
-                  <div className="empty-expense">
-                    <h3>No income entries found</h3>
-                    <p>Try changing your search or add a new income.</p>
-                  </div>
-                ) : (
-                  incomes.map((income) => (
-                    <IncomeCard
-                      key={income.id}
-                      income={income}
-                      onDelete={handleDelete}
-                    />
-                  ))
-                )}
-              </div>
-            </>
+            <IncomeTable
+              incomes={incomes}
+              onDelete={handleDelete}
+            />
           )}
 
         </main>
-
       </div>
 
       <Footer />

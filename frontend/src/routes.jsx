@@ -5,6 +5,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
+import ForgotPassword from "./pages/ForgotPassword";
+
 
 // Expense Management
 import ExpenseList from "./pages/ExpenseList";
@@ -29,6 +31,8 @@ function AppRoutes() {
       {/* Authentication */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+
+      <Route path="/forgot-password" element={<ForgotPassword />} />
 
       {/* Dashboard */}
       <Route path="/dashboard" element={<Dashboard />} />

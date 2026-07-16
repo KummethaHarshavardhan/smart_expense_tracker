@@ -219,6 +219,28 @@
     background:#64748b;
 }
 
+/* Income Category Colors */
+
+.salary{
+    background:#16a34a;
+}
+
+.freelance{
+    background:#2563eb;
+}
+
+.business{
+    background:#7c3aed;
+}
+
+.investment{
+    background:#f59e0b;
+}
+
+.gift{
+    background:#ec4899;
+}
+
 /* =========================================================
    Buttons
 ========================================================= */
