@@ -19,11 +19,13 @@ const COLORS = [
 function PieChart({ data = [] }) {
   const chartData =
     data && data.length > 0
-      ? data.map((item, index) => ({
-          name: item.label || item._id || item.name || `Category ${index + 1}`,
-          value: item.value || item.total || item.amount || 0,
-          color: item.color || COLORS[index % COLORS.length],
-        }))
+      ? data
+          .filter((item) => Number(item.value || item.total || item.amount || 0) > 0)
+          .map((item, index) => ({
+            name: item.label || item._id || item.name || `Category ${index + 1}`,
+            value: Number(item.value || item.total || item.amount || 0),
+            color: item.color || COLORS[index % COLORS.length],
+          }))
       : [
           { name: "Food", value: 6500, color: COLORS[0] },
           { name: "Travel", value: 3200, color: COLORS[1] },
@@ -33,16 +35,8 @@ function PieChart({ data = [] }) {
         ];
 
   return (
-    <div
-      style={{
-        background: "#fff",
-        borderRadius: "15px",
-        padding: "20px",
-        height: "500px",
-        boxShadow: "0 4px 20px rgba(0,0,0,.08)",
-      }}
-    >
-      <ResponsiveContainer width="100%" height="90%">
+    <div className="pie-chart-container">
+      <ResponsiveContainer width="100%" height="100%">
         <RePieChart>
           <Pie
             data={chartData}
@@ -50,12 +44,10 @@ function PieChart({ data = [] }) {
             nameKey="name"
             cx="50%"
             cy="50%"
-            innerRadius={80}
-            outerRadius={140}
+            innerRadius={70}
+            outerRadius={120}
             paddingAngle={3}
-            label={({ name, percent }) =>
-              `${name} ${(percent * 100).toFixed(0)}%`
-            }
+            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
           >
             {chartData.map((entry, index) => (
               <Cell key={`${entry.name}-${index}`} fill={entry.color} />
@@ -63,7 +55,6 @@ function PieChart({ data = [] }) {
           </Pie>
 
           <Tooltip formatter={(value) => `₹${Number(value).toLocaleString()}`} />
-
           <Legend verticalAlign="bottom" height={36} />
         </RePieChart>
       </ResponsiveContainer>

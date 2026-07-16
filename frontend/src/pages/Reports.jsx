@@ -3,7 +3,6 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import PieChart from "../components/PieChart";
-import BarChart from "../components/BarChart";
 import Loader from "../components/Loader";
 import { getCategoryBreakdown, getMonthlyReport } from "../services/reportService";
 import { connectSocket } from "../services/socket";
@@ -56,6 +55,10 @@ function Reports() {
       ? Math.max(...monthlyData.map((item) => item.amount || item.total || 0))
       : 0;
 
+  const topCategory = categoryData.length > 0
+    ? [...categoryData].sort((a, b) => (b.value || b.total || 0) - (a.value || a.total || 0))[0]
+    : null;
+
   return (
     <div className="dashboard-container">
       <Navbar />
@@ -89,17 +92,17 @@ function Reports() {
                 </div>
 
                 <div className="report-card">
+                  <h4>Top Category</h4>
+                  <h2>{topCategory ? topCategory.name || topCategory.label : "—"}</h2>
+                </div>
+
+                <div className="report-card">
                   <h4>Highest Monthly Expense</h4>
                   <h2>₹{highestExpense.toLocaleString()}</h2>
                 </div>
               </div>
 
               <div className="analytics-grid">
-                <div className="chart-card">
-                  <h3>Monthly Expense Trend</h3>
-                  <BarChart data={monthlyData} />
-                </div>
-
                 <div className="chart-card">
                   <h3>Category-wise Spending</h3>
                   <PieChart data={categoryData} />

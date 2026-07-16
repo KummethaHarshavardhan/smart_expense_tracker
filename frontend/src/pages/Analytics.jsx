@@ -3,7 +3,6 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import BarChart from "../components/BarChart";
-import PieChart from "../components/PieChart";
 import Loader from "../components/Loader";
 import {
   getCategoryBreakdown,
@@ -60,6 +59,10 @@ function Analytics() {
       ? Math.max(...monthly.map((item) => item.amount || item.total || 0))
       : 0;
 
+  const averageMonthlyExpense = monthly.length > 0
+    ? totalExpense / monthly.length
+    : 0;
+
   return (
     <div className="dashboard-container">
       <Navbar />
@@ -92,13 +95,18 @@ function Analytics() {
                 </div>
 
                 <div className="report-card">
-                  <h4>Total Categories</h4>
-                  <h2>{categories.length}</h2>
+                  <h4>Average Monthly Expense</h4>
+                  <h2>₹{averageMonthlyExpense.toLocaleString()}</h2>
                 </div>
 
                 <div className="report-card">
                   <h4>Highest Monthly Expense</h4>
                   <h2>₹{highestExpense.toLocaleString()}</h2>
+                </div>
+
+                <div className="report-card">
+                  <h4>Total Categories</h4>
+                  <h2>{categories.length}</h2>
                 </div>
 
               </div>
@@ -108,11 +116,6 @@ function Analytics() {
                 <div className="chart-card">
                   <h3>Monthly Expense Trend</h3>
                   <BarChart data={monthly} />
-                </div>
-
-                <div className="chart-card">
-                  <h3>Category-wise Spending</h3>
-                  <PieChart data={categories} />
                 </div>
 
               </div>
