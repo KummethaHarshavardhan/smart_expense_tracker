@@ -1,5 +1,6 @@
 const asyncHandler = require('../utils/asyncHandler');
 const generateToken = require('../utils/generateToken');
+const sendEmail = require('../utils/sendEmail');
 const Users = require('../models/users');
 
 // @route POST /api/auth/register
