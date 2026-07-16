@@ -8,17 +8,14 @@ import Profile from "./pages/Profile";
 import ForgotPassword from "./pages/ForgotPassword";
 
 
-// Expense Management
 import ExpenseList from "./pages/ExpenseList";
 import AddExpense from "./pages/AddExpense";
 import EditExpense from "./pages/EditExpense";
 
-// Income Management
 import Income from "./pages/Income";
 import IncomeList from "./pages/IncomeList";
 import EditIncome from "./pages/EditIncome";
 
-// Reports & Analytics
 import Reports from "./pages/Reports";
 import Analytics from "./pages/Analytics";
 

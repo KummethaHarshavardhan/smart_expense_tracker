@@ -1,6 +1,5 @@
 import api from "./api";
 
-// Register User -> POST /api/auth/register
 export const registerUser = async (userData) => {
   const response = await api.post("/auth/register", {
     name: userData.name,
@@ -13,7 +12,6 @@ export const registerUser = async (userData) => {
   return response.data;
 };
 
-// Login User -> POST /api/auth/login
 export const loginUser = async (userData) => {
   const response = await api.post("/auth/login", {
     email: userData.email,
@@ -25,46 +23,38 @@ export const loginUser = async (userData) => {
   return response.data;
 };
 
-// Logout User
 export const logoutUser = () => {
   localStorage.removeItem("token");
 };
 
-// Get Saved Token
 export const getToken = () => {
   return localStorage.getItem("token");
 };
 
-// Check Login Status
 export const isAuthenticated = () => {
   return !!localStorage.getItem("token");
 };
 
-// Get logged-in user's profile -> GET /api/auth/profile
 export const getProfile = async () => {
   const response = await api.get("/auth/profile");
   return response.data;
 };
 
-// Update name / email -> PUT /api/auth/profile
 export const updateProfile = async (profileData) => {
   const response = await api.put("/auth/profile", profileData);
   return response.data;
 };
 
-// Change password -> PUT /api/auth/change-password
 export const changePassword = async (currentPassword, newPassword) => {
   const response = await api.put("/auth/change-password", { currentPassword, newPassword });
   return response.data;
 };
 
-// Step 1 of Forgot Password - request an OTP by email -> POST /api/auth/forgot-password
 export const forgotPassword = async (email) => {
   const response = await api.post("/auth/forgot-password", { email });
   return response.data;
 };
 
-// Step 2 of Forgot Password - verify OTP and set new password -> POST /api/auth/reset-password
 export const resetPassword = async (email, otp, newPassword) => {
   const response = await api.post("/auth/reset-password", { email, otp, newPassword });
   return response.data;

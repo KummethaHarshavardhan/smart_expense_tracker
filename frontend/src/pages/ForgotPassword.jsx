@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { forgotPassword, resetPassword } from "../services/authService";
 import "../styles/forgotPassword.css";
 
@@ -12,6 +13,8 @@ function ForgotPassword() {
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -62,12 +65,9 @@ function ForgotPassword() {
   };
 
   return (
-    <div className="forgot-page">
+    <div className="forgot-container">
       <div className="forgot-card">
-
-        <h1 className="forgot-title">
-          Forgot Password
-        </h1>
+        <h1 className="forgot-title">Forgot Password</h1>
 
         <p className="forgot-subtitle">
           {step === 1
@@ -75,21 +75,12 @@ function ForgotPassword() {
             : "Enter the OTP and create a new password."}
         </p>
 
-        {error && (
-          <div className="forgot-error">
-            {error}
-          </div>
-        )}
+        {error && <div className="forgot-error">{error}</div>}
 
-        {message && (
-          <div className="forgot-success">
-            {message}
-          </div>
-        )}
+        {message && <div className="forgot-success">{message}</div>}
 
         {step === 1 ? (
           <form onSubmit={handleSendOtp}>
-
             <div className="forgot-group">
               <label>Email Address</label>
 
@@ -102,26 +93,16 @@ function ForgotPassword() {
               />
             </div>
 
-            <button
-              type="submit"
-              className="forgot-btn"
-              disabled={loading}
-            >
+            <button type="submit" className="forgot-btn" disabled={loading}>
               {loading ? "Sending OTP..." : "Send OTP"}
             </button>
-
           </form>
         ) : (
           <form onSubmit={handleResetPassword}>
-
             <div className="forgot-group">
               <label>Email Address</label>
 
-              <input
-                type="email"
-                value={email}
-                readOnly
-              />
+              <input type="email" value={email} readOnly />
             </div>
 
             <div className="forgot-group">
@@ -139,45 +120,54 @@ function ForgotPassword() {
             <div className="forgot-group">
               <label>New Password</label>
 
-              <input
-                type="password"
-                placeholder="Enter new password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                required
-              />
+              <div className="password-wrapper">
+                <input
+                  type={showNewPassword ? "text" : "password"}
+                  placeholder="Enter new password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  required
+                />
+
+                <span
+                  className="password-toggle"
+                  onClick={() => setShowNewPassword(!showNewPassword)}
+                >
+                  {showNewPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
             </div>
 
             <div className="forgot-group">
               <label>Confirm Password</label>
 
-              <input
-                type="password"
-                placeholder="Confirm new password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-              />
+              <div className="password-wrapper">
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder="Confirm new password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+
+                <span
+                  className="password-toggle"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                >
+                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
             </div>
 
-            <button
-              type="submit"
-              className="forgot-btn"
-              disabled={loading}
-            >
+            <button type="submit" className="forgot-btn" disabled={loading}>
               {loading ? "Resetting..." : "Reset Password"}
             </button>
-
           </form>
         )}
 
         <div className="forgot-footer">
-          Remember your password?{" "}
-          <Link to="/login">
-            Login
-          </Link>
+          Remember your password? <Link to="/login">Login</Link>
         </div>
-
       </div>
     </div>
   );
