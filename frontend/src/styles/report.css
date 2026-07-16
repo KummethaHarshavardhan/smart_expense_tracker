@@ -1,6 +1,4 @@
-/* ===========================
-   Report & Analytics Styles
-=========================== */
+/*Report & Analytics Styles*/
 
 .report-header {
   display: flex;
@@ -76,8 +74,6 @@
   margin-bottom: 20px;
 }
 
-/* Pie Chart */
-
 .pie-chart-container {
   width: 100%;
   height: 420px;
@@ -86,14 +82,10 @@
   align-items: center;
 }
 
-/* Bar Chart */
-
 .bar-chart-container {
   width: 100%;
   height: 420px;
 }
-
-/* Legend */
 
 .legend {
   list-style: none;
@@ -122,8 +114,6 @@
   font-weight: bold;
 }
 
-/* Reports Layout */
-
 .reports-grid,
 .analytics-grid {
   display: grid;
@@ -131,7 +121,6 @@
   gap: 25px;
 }
 
-/* Table */
 
 .reports-table {
   width: 100%;

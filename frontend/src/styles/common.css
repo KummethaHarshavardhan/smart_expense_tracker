@@ -1,11 +1,5 @@
-/* =========================
-   Google Font
-========================= */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* =========================
-   Reset
-========================= */
 *{
     margin:0;
     padding:0;
@@ -22,18 +16,11 @@ body{
     color:#1f2937;
 }
 
-/* =========================
-   Links
-========================= */
 
 a{
     text-decoration:none;
     color:inherit;
 }
-
-/* =========================
-   Buttons
-========================= */
 
 button{
     cursor:pointer;
@@ -54,9 +41,6 @@ button:hover{
     box-shadow:0 14px 28px rgba(37,99,235,.30);
 }
 
-/* =========================
-   Navbar
-========================= */
 
 .navbar{
     height:75px;
@@ -124,10 +108,6 @@ justify-content:center;
 }
 
 }
-
-/* =========================
-   Sidebar
-========================= */
 
 .sidebar{
     width:260px;
@@ -207,9 +187,6 @@ padding:10px 15px;
 
 }
 
-/* =========================
-   Dashboard Layout
-========================= */
 
 .dashboard-content{
     display:flex;
@@ -234,9 +211,6 @@ padding:10px 15px;
     line-height:1.6;
 }
 
-/* =========================
-   Footer
-========================= */
 
 .footer{
     background:#0f172a;
@@ -247,9 +221,6 @@ padding:10px 15px;
     border-top:1px solid rgba(255,255,255,.08);
 }
 
-/* =========================
-   Summary Cards
-========================= */
 
 .summary-card{
     background:#ffffff;
@@ -276,10 +247,6 @@ padding:10px 15px;
     transform:translateY(-8px);
     box-shadow:0 18px 40px rgba(37,99,235,.18);
 }
-
-/* =========================
-   Loader
-========================= */
 
 .loader-container{
     display:flex;
@@ -309,10 +276,6 @@ padding:10px 15px;
         transform:rotate(360deg);
     }
 }
-
-/* =========================
-   Home Page
-========================= */
 
 .home-container{
     min-height:100vh;
@@ -374,9 +337,7 @@ padding:10px 15px;
     color:#2563eb;
 }
 
-/* =========================
-   Responsive
-========================= */
+/*Responsive*/
 
 @media(max-width:992px){
 
@@ -434,10 +395,6 @@ padding:10px 15px;
 
 }
 
-/* =========================
-   Home Features
-========================= */
-
 .home-features{
     margin-top:70px;
     display:grid;
@@ -478,9 +435,7 @@ padding:10px 15px;
     font-size:15px;
 }
 
-/* =========================
-   Global Animation
-========================= */
+/*Global Animation*/
 
 *{
     transition: background-color .25s ease,

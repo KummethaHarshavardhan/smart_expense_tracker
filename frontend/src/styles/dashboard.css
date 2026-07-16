@@ -1,18 +1,13 @@
-/* ================= Dashboard ================= */
-
 .dashboard-container {
   min-height: 100vh;
   background: #f4f7fc;
 }
-
-/* Main Content */
 
 .dashboard-main {
   flex: 1;
   padding: 30px;
 }
 
-/* Dashboard Header */
 
 .dashboard-header {
   display: flex;
@@ -34,8 +29,6 @@
   font-size: 16px;
 }
 
-/* Quick Buttons */
-
 .dashboard-actions {
   display: flex;
   gap: 15px;
@@ -56,7 +49,6 @@
   transform: translateY(-2px);
 }
 
-/* ================= Summary Cards ================= */
 
 .summary-section {
   display: grid;
@@ -90,7 +82,6 @@
   font-size: 32px;
 }
 
-/* ================= Recent Expenses ================= */
 
 .recent-expenses {
   background: white;
@@ -129,7 +120,6 @@
   background: #e0f2fe;
 }
 
-/* ================= Profile ================= */
 
 .profile-card {
   max-width: 520px;
@@ -149,7 +139,7 @@
   color: #475569;
 }
 
-/* ================= Responsive ================= */
+/*Responsive*/
 
 @media(max-width:768px){
 
