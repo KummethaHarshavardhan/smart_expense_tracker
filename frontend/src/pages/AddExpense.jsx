@@ -30,13 +30,10 @@ function AddExpense() {
 
         <main className="dashboard-main">
 
-          <div className="page-header">
-            <h2>Add New Expense</h2>
-            <p>
-              Record your daily expenses to keep track of your spending and
-              manage your budget effectively.
-            </p>
-          </div>
+          <div className="add-expense-header">
+    <h2>Add New Expense</h2>
+    <p>Fill in the details below to add a new expense.</p>
+</div>
 
           {error && (
             <div className="error-box">

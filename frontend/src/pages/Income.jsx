@@ -29,26 +29,14 @@ function Income() {
         <Sidebar />
 
         <main className="dashboard-main">
-
-          <div className="page-header">
+          <div className="add-expense-header">
             <h2>Add New Income</h2>
-            <p>
-              Record your income sources to keep an accurate picture of your
-              total balance alongside your expenses.
-            </p>
+            <p>Fill in the details below to add a new income.</p>
           </div>
 
-          {error && (
-            <div className="error-box">
-              {error}
-            </div>
-          )}
+          {error && <div className="error-box">{error}</div>}
 
-          <IncomeForm
-            buttonText="Add Income"
-            onSubmit={handleAddIncome}
-          />
-
+          <IncomeForm buttonText="Add Income" onSubmit={handleAddIncome} />
         </main>
       </div>
 

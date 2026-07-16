@@ -361,6 +361,27 @@
     font-weight:500;
 }
 
+
+/* ==================================
+   Add Expense Header
+================================== */
+
+.add-expense-header{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.add-expense-header h2{
+    font-size:32px;
+    color:#1e293b;
+    margin-bottom:8px;
+}
+
+.add-expense-header p{
+    color:#64748b;
+    font-size:15px;
+}
+
 /* =========================================================
    Responsive
 ========================================================= */
