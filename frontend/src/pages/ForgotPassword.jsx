@@ -2,10 +2,12 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { forgotPassword, resetPassword } from "../services/authService";
+import { useToast } from "../context/ToastContext";
 import "../styles/forgotPassword.css";
 
 function ForgotPassword() {
   const navigate = useNavigate();
+  const toast = useToast();
 
   const [step, setStep] = useState(1);
 
@@ -31,9 +33,12 @@ function ForgotPassword() {
       const data = await forgotPassword(email);
 
       setMessage(data.message || "OTP sent successfully.");
+      toast.success(data.message || "OTP sent successfully.");
       setStep(2);
     } catch (err) {
-      setError(err?.message || "Failed to send OTP");
+      const msg = err?.message || "Failed to send OTP";
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
@@ -47,6 +52,7 @@ function ForgotPassword() {
 
     if (newPassword !== confirmPassword) {
       setError("Passwords do not match.");
+      toast.warning("Passwords do not match.");
       return;
     }
 
@@ -55,10 +61,12 @@ function ForgotPassword() {
 
       await resetPassword(email, otp, newPassword);
 
-      alert("Password reset successfully.");
+      toast.success("Password reset successfully.");
       navigate("/login");
     } catch (err) {
-      setError(err?.message || "Failed to reset password");
+      const msg = err?.message || "Failed to reset password";
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }

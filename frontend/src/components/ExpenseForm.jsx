@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useToast } from "../context/ToastContext";
 
 function ExpenseForm({
   initialData = {
@@ -11,6 +12,7 @@ function ExpenseForm({
   onSubmit,
   buttonText = "Save Expense",
 }) {
+  const toast = useToast();
   const [expense, setExpense] = useState(initialData);
 
   const handleChange = (e) => {
@@ -29,7 +31,7 @@ function ExpenseForm({
       !expense.category ||
       !expense.date
     ) {
-      alert("Please fill all required fields.");
+      toast.warning("Please fill all required fields.");
       return;
     }
 

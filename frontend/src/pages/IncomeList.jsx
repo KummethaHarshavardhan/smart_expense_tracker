@@ -5,14 +5,18 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import Loader from "../components/Loader";
+import ConfirmDialog from "../components/ConfirmDialog";
 import { getIncomes, deleteIncome } from "../services/incomeService";
+import { useToast } from "../context/ToastContext";
 import "../styles/expense.css";
 
 function IncomeList() {
+  const toast = useToast();
   const [incomes, setIncomes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
+  const [pendingDeleteId, setPendingDeleteId] = useState(null);
 
   const loadIncomes = () => {
     setLoading(true);
@@ -22,7 +26,7 @@ function IncomeList() {
       category: category || undefined,
     })
       .then((data) => setIncomes(data))
-      .catch((err) => console.error("Failed to load income:", err))
+      .catch((err) => toast.error(err?.message || "Failed to load income"))
       .finally(() => setLoading(false));
   };
 
@@ -31,21 +35,21 @@ function IncomeList() {
     return () => clearTimeout(timeout);
   }, [search, category]);
 
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this income entry?"
-    );
+  const handleDelete = (id) => {
+    setPendingDeleteId(id);
+  };
 
-    if (!confirmDelete) return;
+  const confirmDelete = async () => {
+    const id = pendingDeleteId;
+    setPendingDeleteId(null);
 
     try {
       await deleteIncome(id);
 
-      setIncomes((prev) =>
-        prev.filter((income) => income._id !== id)
-      );
+      setIncomes((prev) => prev.filter((income) => income._id !== id));
+      toast.success("Income entry deleted successfully.");
     } catch (err) {
-      alert(err?.message || "Failed to delete income");
+      toast.error(err?.message || "Failed to delete income");
     }
   };
 
@@ -109,6 +113,16 @@ function IncomeList() {
       </div>
 
       <Footer />
+
+      <ConfirmDialog
+        open={pendingDeleteId !== null}
+        title="Delete this income entry?"
+        message="This will permanently remove the income record. This action cannot be undone."
+        confirmLabel="Delete"
+        cancelLabel="Cancel"
+        onConfirm={confirmDelete}
+        onCancel={() => setPendingDeleteId(null)}
+      />
     </>
   );
 }

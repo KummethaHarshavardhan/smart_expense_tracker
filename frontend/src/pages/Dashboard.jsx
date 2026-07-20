@@ -67,21 +67,25 @@ function Dashboard() {
             <SummaryCard
               title="Total Income"
               amount={`₹${summary.totalIncome}`}
+              className="income-card"
             />
 
             <SummaryCard
               title="Total Expense"
               amount={`₹${summary.totalExpense}`}
+              className="expense-card"
             />
 
             <SummaryCard
               title="Balance"
               amount={`₹${summary.balance}`}
+              className="balance-card"
             />
 
             <SummaryCard
               title="This Month"
               amount={`₹${summary.thisMonth}`}
+              className="month-card"
             />
           </div>
 

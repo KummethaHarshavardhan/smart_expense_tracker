@@ -6,11 +6,13 @@ import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import Loader from "../components/Loader";
 import { getIncomeById, updateIncome } from "../services/incomeService";
+import { useToast } from "../context/ToastContext";
 import "../styles/expense.css";
 
 function EditIncome() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const toast = useToast();
 
   const [existingIncome, setExistingIncome] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -25,7 +27,9 @@ function EditIncome() {
       })
       .catch((err) => {
         if (mounted) {
-          setError(err?.message || "Could not load this income entry");
+          const message = err?.message || "Could not load this income entry";
+          setError(message);
+          toast.error(message);
         }
       })
       .finally(() => {
@@ -40,10 +44,12 @@ function EditIncome() {
   const handleUpdateIncome = async (updatedIncome) => {
     try {
       await updateIncome(id, updatedIncome);
-      alert("Income updated successfully!");
+      toast.success("Income updated successfully!");
       navigate("/income");
     } catch (err) {
-      setError(err?.message || "Failed to update income");
+      const message = err?.message || "Failed to update income";
+      setError(message);
+      toast.error(message);
     }
   };
 

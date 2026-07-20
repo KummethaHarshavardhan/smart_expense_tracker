@@ -1,70 +1,57 @@
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { FaBars, FaTimes, FaWallet } from "react-icons/fa";
+import "../styles/navbar.css";
 
 function Navbar() {
   const location = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const closeMenu = () => setMenuOpen(false);
+
+  const links = [
+    { to: "/dashboard", label: "Dashboard" },
+    { to: "/income", label: "Income" },
+    { to: "/expenses", label: "Expenses" },
+    { to: "/reports", label: "Reports" },
+    { to: "/analytics", label: "Analytics" },
+    { to: "/profile", label: "Profile" },
+  ];
 
   return (
     <nav className="navbar">
-
       <div className="navbar-logo">
-        💰 Smart Expense Tracker
+        <FaWallet className="navbar-logo-icon" />
+        Smart Expense Tracker
       </div>
 
-      <ul className="navbar-menu">
 
-        <li>
-          <Link
-            to="/dashboard"
-            className={location.pathname === "/dashboard" ? "active" : ""}
-          >
-            Dashboard
-          </Link>
-        </li>
+      <button
+        className="navbar-toggle"
+        onClick={() => setMenuOpen((prev) => !prev)}
+        aria-label="Toggle navigation menu"
+        aria-expanded={menuOpen}
+      >
+        {menuOpen ? <FaTimes /> : <FaBars />}
+      </button>
 
-        <li>
-          <Link
-            to="/expenses"
-            className={location.pathname === "/expenses" ? "active" : ""}
-          >
-            Expenses
-          </Link>
-        </li>
-
-        <li>
-          <Link
-            to="/reports"
-            className={location.pathname === "/reports" ? "active" : ""}
-          >
-            Reports
-          </Link>
-        </li>
-
-        <li>
-          <Link
-            to="/analytics"
-            className={location.pathname === "/analytics" ? "active" : ""}
-          >
-            Analytics
-          </Link>
-        </li>
-
-        <li>
-          <Link
-            to="/profile"
-            className={location.pathname === "/profile" ? "active" : ""}
-          >
-            Profile
-          </Link>
-        </li>
-
-        <li>
-          <Link to="/login">
-            Logout
-          </Link>
-        </li>
+      <ul className={`navbar-menu ${menuOpen ? "open" : ""}`}>
+        {links.map((link) => (
+          <li key={link.to}>
+            <Link
+              to={link.to}
+              onClick={closeMenu}
+              className={location.pathname === link.to ? "active" : ""}
+            >
+              {link.label}
+            </Link>
+          </li>
+        ))}
 
       </ul>
-
+      <Link to="/login" onClick={closeMenu} className="navbar-logout" >
+            <button>LOGOUT</button>
+      </Link>
     </nav>
   );
 }

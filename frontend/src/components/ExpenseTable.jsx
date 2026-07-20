@@ -27,13 +27,13 @@ function ExpenseTable({ expenses = [], onDelete }) {
             </tr>
           ) : (
             expenses.map((expense) => (
-              <tr key={expense.id}>
+              <tr key={expense.id} className="expense-row">
 
-                <td>
+                <td data-label="Title">
                   <strong>{expense.title}</strong>
                 </td>
 
-                <td>
+                <td data-label="Category">
                   <span
                     className={`category-badge ${expense.category
                       ?.toLowerCase()
@@ -43,17 +43,17 @@ function ExpenseTable({ expenses = [], onDelete }) {
                   </span>
                 </td>
 
-                <td className="amount">
+                <td className="amount" data-label="Amount">
                   ₹{Number(expense.amount).toLocaleString("en-IN")}
                 </td>
 
-                <td>{expense.date}</td>
+                <td data-label="Date">{expense.date}</td>
 
-                <td className="description">
+                <td className="description" data-label="Description">
                   {expense.description || "-"}
                 </td>
 
-                <td className="action-buttons">
+                <td className="action-buttons" data-label="Actions">
 
                   <Link to={`/edit-expense/${expense.id}`}>
                     <button className="edit-btn">

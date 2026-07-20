@@ -5,14 +5,18 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import Loader from "../components/Loader";
+import ConfirmDialog from "../components/ConfirmDialog";
 import { getExpenses, deleteExpense } from "../services/expenseService";
+import { useToast } from "../context/ToastContext";
 import "../styles/expense.css";
 
 function ExpenseList() {
+  const toast = useToast();
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
+  const [pendingDeleteId, setPendingDeleteId] = useState(null);
 
   const loadExpenses = () => {
     setLoading(true);
@@ -22,7 +26,9 @@ function ExpenseList() {
       category: category || undefined,
     })
       .then((data) => setExpenses(data))
-      .catch((err) => console.error("Failed to load expenses:", err))
+      .catch((err) =>
+        toast.error(err?.message || "Failed to load expenses")
+      )
       .finally(() => setLoading(false));
   };
 
@@ -31,12 +37,13 @@ function ExpenseList() {
     return () => clearTimeout(timeout);
   }, [search, category]);
 
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this expense?"
-    );
+  const handleDelete = (id) => {
+    setPendingDeleteId(id);
+  };
 
-    if (!confirmDelete) return;
+  const confirmDelete = async () => {
+    const id = pendingDeleteId;
+    setPendingDeleteId(null);
 
     try {
       await deleteExpense(id);
@@ -44,8 +51,9 @@ function ExpenseList() {
       setExpenses((prevExpenses) =>
         prevExpenses.filter((expense) => expense.id !== id)
       );
+      toast.success("Expense deleted successfully.");
     } catch (err) {
-      alert(err?.message || "Failed to delete expense");
+      toast.error(err?.message || "Failed to delete expense");
     }
   };
 
@@ -108,6 +116,16 @@ function ExpenseList() {
       </div>
 
       <Footer />
+
+      <ConfirmDialog
+        open={pendingDeleteId !== null}
+        title="Delete this expense?"
+        message="This will permanently remove the expense record. This action cannot be undone."
+        confirmLabel="Delete"
+        cancelLabel="Cancel"
+        onConfirm={confirmDelete}
+        onCancel={() => setPendingDeleteId(null)}
+      />
     </>
   );
 }

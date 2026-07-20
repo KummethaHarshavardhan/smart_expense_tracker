@@ -6,11 +6,13 @@ import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import Loader from "../components/Loader";
 import { getExpenseById, updateExpense } from "../services/expenseService";
+import { useToast } from "../context/ToastContext";
 import "../styles/expense.css";
 
 function EditExpense() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const toast = useToast();
 
   const [existingExpense, setExistingExpense] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -25,7 +27,9 @@ function EditExpense() {
       })
       .catch((err) => {
         if (mounted) {
-          setError(err?.message || "Could not load this expense");
+          const message = err?.message || "Could not load this expense";
+          setError(message);
+          toast.error(message);
         }
       })
       .finally(() => {
@@ -40,10 +44,12 @@ function EditExpense() {
   const handleUpdateExpense = async (updatedExpense) => {
     try {
       await updateExpense(id, updatedExpense);
-      alert("Expense updated successfully!");
+      toast.success("Expense updated successfully!");
       navigate("/expenses");
     } catch (err) {
-      setError(err?.message || "Failed to update expense");
+      const message = err?.message || "Failed to update expense";
+      setError(message);
+      toast.error(message);
     }
   };
 

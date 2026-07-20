@@ -5,19 +5,23 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import { createIncome } from "../services/incomeService";
+import { useToast } from "../context/ToastContext";
 import "../styles/expense.css";
 
 function Income() {
   const navigate = useNavigate();
+  const toast = useToast();
   const [error, setError] = useState("");
 
   const handleAddIncome = async (incomeData) => {
     try {
       await createIncome(incomeData);
-      alert("Income added successfully!");
+      toast.success("Income added successfully!");
       navigate("/income");
     } catch (err) {
-      setError(err?.message || "Failed to add income");
+      const message = err?.message || "Failed to add income";
+      setError(message);
+      toast.error(message);
     }
   };
 

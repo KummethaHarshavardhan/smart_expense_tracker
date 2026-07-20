@@ -146,6 +146,7 @@
     padding:16px;
     border-bottom:1px solid #edf2f7;
     vertical-align:middle;
+    font-size:14px;
 }
 
 .expense-table tbody tr:hover{
@@ -363,28 +364,59 @@
 
 .expense-page-header,
 .page-header{
-flex-direction:column;
-align-items:flex-start;
+    flex-direction:column;
+    align-items:flex-start;
+}
+
+.expense-page-header button,
+.page-header button{
+    width:100%;
 }
 
 .form-row{
-grid-template-columns:1fr;
+    grid-template-columns:1fr;
 }
 
 .expense-filters{
-flex-direction:column;
+    flex-direction:column;
+}
+
+.expense-filters input,
+.expense-filters select{
+    min-width:100%;
 }
 
 .action-buttons{
-flex-direction:column;
+    flex-direction:column;
 }
 
 .expense-card-grid{
-grid-template-columns:1fr;
+    grid-template-columns:1fr;
 }
 
+.expense-form{
+    padding:24px;
+}
+
+}
+
+/* Table -> Card conversion for small/mobile screens */
+@media(max-width:480px){
+
 .expense-table{
-min-width:850px;
+min-width:480px;
+font-size:13px;
+}
+
+.expense-table th,
+.expense-table td{
+padding:9px;
+}
+
+.category-badge,
+.expense-category{
+padding:4px 10px;
+font-size:11px;
 }
 
 }
